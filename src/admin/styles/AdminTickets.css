@@ -1,0 +1,54 @@
+/* AdminTickets.css - CSS riêng cho giao diện vé */
+
+.ticket-filter {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ticket-search {
+  display: flex;
+  align-items: center;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  flex: 1;
+}
+
+.ticket-search input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  flex: 1;
+  font-size: 14px;
+}
+
+.ticket-filter select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+/* Trạng thái vé */
+.status-tag {
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: capitalize;
+}
+
+.status-unused {
+  color: #f1c40f;
+}
+
+.status-used {
+  color: #2ecc71;
+}
+
+.status-cancelled {
+  color: #e74c3c;
+}

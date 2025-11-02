@@ -1,0 +1,20 @@
+.main-nav {
+  background: #111;
+  padding: 10px 90px;
+}
+
+.main-nav .container {
+  width: 100%;
+  margin: 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  color: #fff;
+}
+
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 8px;
+}

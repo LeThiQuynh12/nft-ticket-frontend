@@ -1,0 +1,65 @@
+.section {
+  width: 100%;
+  margin: 15px 0;
+  padding: 20px 24px;
+}
+
+.section h2 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+/* Event grid */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.event-card {
+  background: #1b1b1c;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.event-banner {
+  height: 140px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.event-body {
+  padding: 12px;
+}
+
+.event-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.event-meta {
+  font-size: 13px;
+  color: #cfcfcf;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  background: #fff;
+  color: #111;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}

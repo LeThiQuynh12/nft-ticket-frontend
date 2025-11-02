@@ -1,0 +1,205 @@
+.create-event-container {
+  background-color: #000;
+  color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.tabs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #1b1b1b;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #ccc;
+  transition: 0.3s;
+}
+
+.tab-item.active {
+  color: #4ade80;
+  border-bottom: 2px solid #4ade80;
+  padding-bottom: 4px;
+}
+
+.tab-item.completed .tab-circle {
+  background-color: #4ade80;
+  color: white;
+}
+
+.tab-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.tabs-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-save,
+.btn-next {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-save {
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-next {
+  background-color: #4ade80;
+  color: #000;
+}
+
+.btn-next:hover {
+  opacity: 0.9;
+}
+
+.tab-content {
+  margin-top: 20px;
+  min-height: 300px;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #222;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.progress-step p {
+  color: #ccc;
+  font-size: 13px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* đường nối giữa các bước */
+.progress-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 16px; /* giữa vòng tròn */
+
+  width: 100%;
+  height: 4px;
+  background-color: #333;
+  z-index: 1;
+  transform: translateX(50%);
+}
+
+/* khi hoàn thành, đường nối chuyển màu xanh */
+.progress-step.completed:not(:last-child)::before {
+  background-color: #4ade80;
+}
+
+/* trạng thái active và completed */
+.progress-step.active .circle,
+.progress-step.completed .circle {
+  background-color: #4ade80;
+  color: #000;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.tabs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #1b1b1b;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  gap: 20px; /* tạo khoảng cách giữa phần progress và nút */
+}
+
+/* Giảm width của progress-container để còn chỗ cho nút */
+.progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0; /* bỏ margin-bottom để không đẩy xuống */
+}
+
+/* Giúp nhóm nút nằm trên cùng một hàng */
+.tabs-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0; /* không co lại */
+}
+
+/* Làm nút đẹp, to vừa phải */
+.btn-save,
+.btn-next,
+.btn-back {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap; /* ✅ giữ chữ không xuống dòng */
+}
+
+.btn-save {
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-next {
+  background-color: #4ade80;
+  color: #000;
+}
+
+.btn-back {
+  background-color: #333;
+  color: #fff;
+}
+
+.btn-next:hover,
+.btn-save:hover,
+.btn-back:hover {
+  opacity: 0.85;
+}

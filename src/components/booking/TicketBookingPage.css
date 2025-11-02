@@ -1,0 +1,264 @@
+/* ===== Toàn trang ===== */
+.booking-page {
+  background: #0f0f0f;
+  color: #f0f0f0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ===== Banner đầu trang ===== */
+.booking-header {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+}
+.booking-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.65);
+}
+.booking-header .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.85));
+}
+.booking-header-content {
+  position: absolute;
+  bottom: 30px;
+  left: 60px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+.booking-header-content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffd166;
+}
+.booking-header-content p {
+  font-size: 16px;
+  margin: 2px 0;
+}
+
+/* ===== Bố cục chính ===== */
+.booking-container {
+  display: flex;
+  gap: 32px;
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 0 40px;
+  align-items: flex-start;
+}
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.right-section {
+  flex: 2;
+}
+
+/* ===== Card wrapper ===== */
+.card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  border: 1px solid #2a2a2a;
+}
+
+/* ===== Form khách hàng ===== */
+.booking-form h3,
+.payment-methods h3,
+.seat-map h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f05454;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.booking-form label {
+  display: block;
+  margin-bottom: 4px;
+  color: #ccc;
+  font-size: 14px;
+}
+.booking-form input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #0f0f0f;
+  color: #eee;
+  transition: border-color 0.2s;
+}
+.booking-form input:focus {
+  outline: none;
+  border-color: #f05454;
+}
+
+/* ===== Phương thức thanh toán ===== */
+.payment-methods label {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  gap: 8px;
+  font-size: 15px;
+  color: #ddd;
+  cursor: pointer;
+}
+.payment-methods input[type="radio"] {
+  accent-color: #f05454;
+}
+
+/* ===== Sơ đồ ghế và bảng giá ===== */
+.seatmap-img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #333;
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #121212;
+  color: #eee;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.ticket-table th, .ticket-table td {
+  border: 1px solid #2a2a2a;
+  padding: 10px;
+  text-align: center;
+}
+.ticket-table th {
+  background: #1e1e1e;
+  text-transform: uppercase;
+  color: #f05454;
+  font-weight: 600;
+}
+.add-btn {
+  background: #f05454;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.add-btn:hover {
+  background: #ff6b6b;
+}
+
+.selected-list {
+  background: #181818;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+  border: 1px solid #2b2b2b;
+}
+.selected-list h4 {
+  color: #ffd166;
+  margin-bottom: 10px;
+}
+.selected-list ul {
+  margin-left: 16px;
+  line-height: 1.6;
+}
+
+/* ===== Tổng cộng & thanh toán ===== */
+.total-section {
+  margin-top: 24px;
+  background: #141414;
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 10px;
+}
+.total-section input {
+  width: 70%;
+  padding: 8px 10px;
+  border: 1px solid #444;
+  background: #0f0f0f;
+  color: #fff;
+  border-radius: 6px;
+}
+.check-btn {
+  background: #ffd166;
+  color: #111;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.total {
+  margin: 12px 0;
+  font-size: 16px;
+  color: #fff;
+}
+.agreement {
+  display: flex;
+  margin-bottom: 16px;
+  justify-content: center;
+  
+  align-items: center;
+  gap: 6px; /* chỉnh khoảng cách nhỏ giữa checkbox và chữ */
+  font-size: 14px;
+  color: #fff; /* hoặc #000 tùy nền */
+}
+
+.agreement input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: #ff4b2b; /* màu tick nếu muốn tuỳ chỉnh */
+}
+
+.agreement a {
+  color: #ff4b2b; /* màu link nổi bật */
+  text-decoration: none;
+}
+
+.agreement a:hover {
+  text-decoration: underline;
+}
+
+
+.btn-continue {
+  background: linear-gradient(135deg, #f05454, #ff6b6b);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-continue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(240, 84, 84, 0.4);
+}
+
+/* ===== Empty state ===== */
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #ddd;
+}
+.back-link {
+  color: #f05454;
+  display: inline-block;
+  margin-top: 12px;
+  text-decoration: none;
+}
+.back-link:hover {
+  text-decoration: underline;
+}

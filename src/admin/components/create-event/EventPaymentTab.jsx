@@ -11,40 +11,93 @@ const BANKS = [
 
 export default function EventPaymentTab({ data, updateData, errors }) {
   const pay = data.paymentInfo || {};
-  const set = (field, value) => updateData({ paymentInfo: { ...pay, [field]: value } });
-
-  const handleBankChange = (bank) => set('bankName', bank);
+  const set = (field, value) =>
+    updateData({ paymentInfo: { ...pay, [field]: value } });
 
   return (
     <div className="payment-tab">
-      <h3>Thông tin thanh toán</h3>
+      <h3 className="payment-title">Thông tin thanh toán</h3>
+      <p className="payment-subtext">
+        Vui lòng nhập thông tin tài khoản nhận thanh toán
+      </p>
 
-      <div className="section">
-        <label>Chủ tài khoản *</label>
-        <input placeholder="Nguyễn Văn A" value={pay.accountName || ''} onChange={e => set('accountName', e.target.value)} maxLength={100} />
-        {errors.accountName && <div className="input-error">{errors.accountName}</div>}
+      <div className="pay-grid">
+        {/* Chủ tài khoản */}
+        <div className="form-group">
+          <label>Chủ tài khoản *</label>
+          <input
+            className={errors.accountName ? 'error' : ''}
+            placeholder="Nguyễn Văn A"
+            value={pay.accountName || ''}
+            onChange={e => set('accountName', e.target.value)}
+            maxLength={100}
+          />
+          {errors.accountName && (
+            <span className="input-error">{errors.accountName}</span>
+          )}
+        </div>
 
-        <label>Số tài khoản *</label>
-        <input placeholder="0123456789" value={pay.accountNumber || ''} onChange={e => set('accountNumber', e.target.value.replace(/\D/g, ''))} maxLength={20} />
-        {errors.accountNumber && <div className="input-error">{errors.accountNumber}</div>}
+        {/* Số tài khoản */}
+        <div className="form-group">
+          <label>Số tài khoản *</label>
+          <input
+            className={errors.accountNumber ? 'error' : ''}
+            placeholder="0123456789"
+            value={pay.accountNumber || ''}
+            onChange={e =>
+              set('accountNumber', e.target.value.replace(/\D/g, ''))
+            }
+            maxLength={20}
+          />
+          {errors.accountNumber && (
+            <span className="input-error">{errors.accountNumber}</span>
+          )}
+        </div>
 
-        <label>Ngân hàng *</label>
-        <select value={pay.bankName || ''} onChange={e => handleBankChange(e.target.value)}>
-          <option value="">Chọn ngân hàng</option>
-          {BANKS.map(b => <option key={b} value={b}>{b}</option>)}
-        </select>
-        {errors.bankName && <div className="input-error">{errors.bankName}</div>}
+        {/* Ngân hàng */}
+        <div className="form-group">
+          <label>Ngân hàng *</label>
+          <select
+            className={errors.bankName ? 'error' : ''}
+            value={pay.bankName || ''}
+            onChange={e => set('bankName', e.target.value)}
+          >
+            <option value="">Chọn ngân hàng</option>
+            {BANKS.map(b => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+          {errors.bankName && (
+            <span className="input-error">{errors.bankName}</span>
+          )}
+        </div>
 
-        <label>Chi nhánh (không bắt buộc)</label>
-        <input placeholder="Hà Nội, TP.HCM..." value={pay.branch || ''} onChange={e => set('branch', e.target.value)} maxLength={100} />
+        {/* Chi nhánh */}
+        <div className="form-group">
+          <label>Chi nhánh</label>
+          <input
+            placeholder="Hà Nội / TP.HCM..."
+            value={pay.branch || ''}
+            onChange={e => set('branch', e.target.value)}
+            maxLength={100}
+          />
+        </div>
       </div>
 
+      {/* Preview thẻ ngân hàng */}
       {(pay.accountName || pay.accountNumber || pay.bankName) && (
-        <div style={{ marginTop: 25, padding: '18px 20px', background: 'linear-gradient(135deg, #e3f2fd, #bbdefb)', border: '2px solid #1976d2', borderRadius: 16 }}>
-          <strong style={{ fontSize: '16px', color: '#1976d2' }}>Khách chuyển khoản tới:</strong>
-          <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{pay.accountName || '___'}</div>
-          <div style={{ fontSize: '20px', letterSpacing: '1px', margin: '8px 0' }}>{pay.accountNumber || '___'}</div>
-          <div style={{ color: '#1976d2', fontWeight: '600' }}>{pay.bankName || 'Ngân hàng'} - Chi nhánh: {pay.branch || 'Toàn quốc'}</div>
+        <div className="bank-card">
+          <div className="bank-chip" />
+          <div className="bank-name">{pay.bankName || 'Ngân hàng'}</div>
+          <div className="bank-number">
+            {pay.accountNumber || '•••• •••• ••••'}
+          </div>
+          <div className="bank-owner">{pay.accountName || 'Tên người nhận'}</div>
+          <div className="bank-branch">
+            Chi nhánh: {pay.branch || 'Toàn quốc'}
+          </div>
         </div>
       )}
     </div>

@@ -116,29 +116,25 @@ export default function CreateEvent() {
 
   const handlePrev = () => setCurrentStep(s => Math.max(s - 1, 1));
 
-  const buildFormData = (fd, obj, parentKey = '') => {
-    // recursively append objects/arrays to FormData properly where files are included
-    for (const key of Object.keys(obj || {})) {
-      const value = obj[key];
-      const formKey = parentKey ? `${parentKey}.${key}` : key;
-      if (value instanceof File) {
-        fd.append(formKey, value);
-      } else if (Array.isArray(value)) {
-        // if array of files or primitives or objects
-        value.forEach((v, i) => {
-          if (v instanceof File) fd.append(`${formKey}`, v); // backend expects multiple same-key files
-          else if (typeof v === 'object') fd.append(`${formKey}`, JSON.stringify(v));
-          else fd.append(`${formKey}[]`, v);
-        });
-      } else if (value && typeof value === 'object') {
-        // nested object -> stringify
-        fd.append(formKey, JSON.stringify(value));
-      } else if (value !== undefined && value !== null) {
-        fd.append(formKey, String(value));
-      }
-    }
-  };
+const buildFormData = (fd, obj, parentKey = '') => {
+  for (const key in obj) {
+    const value = obj[key];
+    const formKey = parentKey ? `${parentKey}.${key}` : key;
 
+    if (value instanceof File) {
+      fd.append(formKey, value);
+    } else if (Array.isArray(value)) {
+      value.forEach(v => {
+        if (v instanceof File) fd.append(formKey, v);
+        else fd.append(formKey, JSON.stringify(v));
+      });
+    } else if (typeof value === 'object' && value !== null) {
+      fd.append(formKey, JSON.stringify(value));
+    } else if (value !== undefined && value !== null) {
+      fd.append(formKey, String(value));
+    }
+  }
+};
 
   const handleSubmit = async () => {
     setGlobalError(null);
@@ -164,7 +160,13 @@ export default function CreateEvent() {
       fd.append('confirmationMessage', formData.confirmationMessage || '');
 
       // nested objects as JSON
-      fd.append('location', JSON.stringify(formData.location || {}));
+      // fd.append('location', JSON.stringify(formData.location || {}));
+      Object.entries(formData.location || {}).forEach(([key, value]) => {
+  if (value !== undefined && value !== null) {
+    fd.append(`location[${key}]`, value);
+  }
+});
+
       fd.append('ticketTypes', JSON.stringify(formData.ticketTypes || []));
       fd.append('paymentInfo', JSON.stringify(formData.paymentInfo || {}));
 

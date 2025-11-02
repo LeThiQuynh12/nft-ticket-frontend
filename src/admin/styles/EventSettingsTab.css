@@ -1,151 +1,114 @@
 .event-settings-tab {
-  background-color: #18181b;
+  background: #191a1f;
+  padding: 30px;
+  border-radius: 14px;
   color: #f5f5f5;
-  padding: 32px;
-  border-radius: 16px;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
-  max-width: 100%;
-  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-html,
-body {
-  overflow: hidden; /* Ngăn scroll ngoài */
-}
-
-/* Section Layout */
+/* Section */
 .section {
-  background: #1f1f23;
-  border: 1px solid #2e2e35;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 28px;
-  transition: all 0.25s ease;
+  background: #1f2025;
+  padding: 22px;
+  border-radius: 10px;
+  border: 1px solid #2b2c33;
+  margin-bottom: 24px;
+  transition: 0.2s;
 }
+
 .section:hover {
   border-color: #4ade80;
-  background-color: #232327;
+  background: #24252b;
 }
 
 .section-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 16px;
+  gap: 8px;
+  font-size: 15px;
   font-weight: 600;
-  margin: 0 0 14px 0;
-  color: #ffffff;
+  margin-bottom: 18px;
 }
 
-/* Icons */
-.icon {
-  font-size: 18px;
-  color: #4ade80;
-}
-
-/* Description */
-.section-desc {
-  font-size: 14px;
-  color: #a1a1aa;
-  margin: 0 0 14px 0;
-  line-height: 1.6;
-}
-
-/* Radio Options */
-.privacy-options {
+/* Radio group */
+/* .radio-group {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-.radio-option {
+  gap: 12px;
+} */
+
+.radio-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  cursor: pointer;
-  padding: 12px 14px;
+  background: #26272d;
+  padding: 14px;
   border-radius: 10px;
-  background: #26262b;
-  border: 1px solid #333;
-  transition: 0.25s;
+  cursor: pointer;
+  border: 1px solid #34353b;
+  transition: 0.2s;
 }
-.radio-option:hover {
+
+.radio-item:hover {
   border-color: #4ade80;
-  background-color: #2e2e33;
 }
-.radio-option input[type='radio'] {
-  margin-top: 4px;
+
+.radio-item input[type="radio"] {
+  margin-top: 2px;
+  accent-color: #4ade80;
   width: 18px;
   height: 18px;
-  accent-color: #4ade80;
 }
-.radio-content strong {
-  font-size: 14.5px;
-  color: #fff;
+
+.radio-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-title {
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 14px;
 }
-.radio-content p {
-  font-size: 13.5px;
-  color: #aaa;
-  margin: 2px 0 0 0;
+
+.radio-desc {
+  font-size: 13px;
+  color: #a1a1a8;
+  margin-top: 2px;
 }
 
 /* Textarea */
-.confirmation-message {
+.styled-textarea {
   width: 100%;
-  padding: 12px 16px;
-  background-color: #26262b;
-  border: 1px solid #333;
+  padding: 12px;
   border-radius: 8px;
-  color: #f5f5f5;
-  font-size: 14px;
+  background: #27282f;
+  border: 1px solid #34353b;
+  color: #fff;
   resize: vertical;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  transition: 0.2s;
 }
-.confirmation-message:focus {
+
+.styled-textarea:focus {
   border-color: #4ade80;
+  background: #2d2f36;
   outline: none;
-  background-color: #2c2c32;
 }
+
 .input-counter {
   text-align: right;
-  font-size: 12.5px;
-  color: #888;
+  font-size: 12px;
+  color: #999;
   margin-top: 6px;
 }
 
-/* Question List */
-.question-steps {
-  margin: 12px 0 16px 20px;
-  font-size: 13.5px;
-  color: #ccc;
+/* Error */
+.input-error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 6px;
 }
-.question-steps li {
-  margin-bottom: 6px;
-}
-
-/* ✅ Fixed Toggle Switch */
-.toggle-switch {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #d4d4d8;
-  position: relative; /* <--- thêm để giữ input đúng chỗ */
-}
-.toggle-switch input[type='checkbox'] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 24px;
-  width: 46px;
-  z-index: 2;
-}
-.slider {
-  position: relative;
-  width: 46px;
-  height: 24px;
-  background-

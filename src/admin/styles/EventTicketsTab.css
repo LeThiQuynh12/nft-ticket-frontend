@@ -315,3 +315,94 @@
   border: 2px solid #4ade80;
   box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
 }
+
+
+/* Popup style mới */
+.ets-modal.modern {
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 14px;
+  padding: 28px;
+  width: 95%;
+  max-width: 520px;
+  animation: popupScale .2s ease;
+  backdrop-filter: blur(12px);
+}
+
+@keyframes popupScale {
+  from { transform: scale(.92); opacity: .3; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.ticket-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ddd;
+}
+
+.input-group input {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: .25s;
+}
+
+.input-group input:focus {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74,222,128,.4);
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+}
+.input-group label {
+  white-space: nowrap; /* 🟢 Giữ label 1 dòng */
+  font-size: 13px;     /* 🟢 Nhỏ hơn để vừa 4 cột */
+}
+
+/* Nút lưu đẹp hơn */
+.et-btn-save.full {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  background: linear-gradient(90deg,#4ade80,#22c55e);
+  color: #000;
+  border: none;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.et-btn-save.full:hover {
+  filter: brightness(1.12);
+}
+
+/* Hover nút X */
+.ets-close-btn:hover {
+  color: #4ade80;
+}

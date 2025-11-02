@@ -1,4 +1,4 @@
-import '../../styles/EventInfoTab.css';
+import '../../styles/EventTicketsTab.css';
 
 // File: src/components/create-event/EventTicketsTab.jsx
 import React, { useState } from 'react';
@@ -88,24 +88,47 @@ export default function EventTicketsTab({ data, updateData, errors }) {
         </div>
       </div>
 
-      {showModal && (
-        <div className="ets-modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="ets-modal" onClick={e => e.stopPropagation()}>
-            <button className="ets-close-btn" onClick={() => setShowModal(false)}>×</button>
-            <h2>Tạo loại vé</h2>
-            <form onSubmit={addTicket}>
-              <input name="ticketName" placeholder="Tên vé" required />
-              <div className="et-form-row">
-                <input name="ticketPrice" type="number" placeholder="Giá" required />
-                <input name="ticketTotal" type="number" placeholder="Tổng SL" required />
-                <input name="ticketMin" type="number" placeholder="Min" required />
-                <input name="ticketMax" type="number" placeholder="Max" required />
-              </div>
-              <button type="submit">Lưu</button>
-            </form>
+{showModal && (
+  <div className="ets-modal-overlay" onClick={() => setShowModal(false)}>
+    <div className="ets-modal modern" onClick={e => e.stopPropagation()}>
+      <button className="ets-close-btn" onClick={() => setShowModal(false)}>×</button>
+
+      <h2 className="modal-title">Thêm loại vé</h2>
+
+      <form className="ticket-form" onSubmit={addTicket}>
+        <div className="input-group">
+          <label>Tên vé</label>
+          <input name="ticketName" placeholder="Ví dụ: Vé VIP / Vé thường" required />
+        </div>
+
+        <div className="input-row">
+          <div className="input-group">
+            <label>Giá</label>
+            <input name="ticketPrice" type="number" placeholder="0" required />
+          </div>
+
+          <div className="input-group">
+            <label>Tổng SL</label>
+            <input name="ticketTotal" type="number" placeholder="100" required />
+          </div>
+
+          <div className="input-group">
+            <label>Min / đơn</label>
+            <input name="ticketMin" type="number" placeholder="1" required />
+          </div>
+
+          <div className="input-group">
+            <label>Max / đơn</label>
+            <input name="ticketMax" type="number" placeholder="5" required />
           </div>
         </div>
-      )}
+
+        <button type="submit" className="et-btn-save full">Lưu vé</button>
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

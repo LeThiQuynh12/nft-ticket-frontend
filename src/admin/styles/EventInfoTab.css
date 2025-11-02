@@ -1,8 +1,10 @@
+/* ==== Event Info Tab ==== */
 .event-info-tab {
   background-color: #111;
   color: #fff;
   padding: 24px;
   border-radius: 12px;
+  font-family: "Inter", sans-serif;
 }
 
 .tab-title {
@@ -13,7 +15,7 @@
   padding-bottom: 8px;
 }
 
-/* Upload section */
+/* ==== Upload section ==== */
 .upload-section {
   display: flex;
   gap: 20px;
@@ -29,29 +31,23 @@
   font-size: 16px;
   color: #fff;
   cursor: pointer;
-  transition: 0.3s;
+  transition: .3s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;   
+  justify-content: center; 
   text-align: center;
-  min-height: 160px;       
+  min-height: 160px;
   padding: 20px;
 }
-
 
 .upload-box:hover {
   border-color: #4ade80;
   color: #4ade80;
 }
 
-.upload-box.small {
-  max-width: 30%;
-}
-
-.upload-box.large {
-  flex: 1;
-}
+.upload-box.small { max-width: 30%; }
+.upload-box.large { flex: 1; }
 
 .upload-icon {
   font-size: 34px;
@@ -59,7 +55,7 @@
   color: #4ade80;
 }
 
-/* Form sections */
+/* ==== Form ==== */
 .form-section {
   margin-bottom: 20px;
   display: flex;
@@ -82,7 +78,7 @@ textarea {
   padding: 10px;
   font-size: 15px;
   outline: none;
-  transition: border-color 0.3s;
+  transition: .3s;
 }
 
 input:focus,
@@ -91,23 +87,35 @@ textarea:focus {
   border-color: #4ade80;
 }
 
-/* Radio buttons */
+/* ==== Radio Group (Online / Offline) ==== */
 .radio-group {
   display: flex;
-  gap: 30px;
-  margin-top: 8px;
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0 15px;
 }
 
-.radio-group input {
-  margin-right: 6px;
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #ddd;
 }
 
-/* Địa chỉ offline */
+.radio-group input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #4ade80;
+  margin: 0;
+}
+
+/* ==== Offline Address ==== */
 .address-section {
   background: #1a1a1a;
   padding: 16px;
   border-radius: 10px;
-  margin: 15px 0 25px 0;
+  margin: 15px 0 25px;
   border: 1px solid #333;
 }
 
@@ -120,25 +128,27 @@ textarea:focus {
 .address-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
+  margin-bottom: 16px;
 }
 
-/* Error */
-.error {
-  border-color: #ef4444 !important;
+.address-grid input,
+.address-grid select {
+  width: 100%;
 }
 
-.error-text {
+/* Error style */
+.error { border-color: #ef4444 !important; }
+
+.error-text,
+.input-error {
   color: #ef4444;
   font-size: 13px;
   margin-top: 4px;
 }
 
-/* Organizer section */
-/* ==== Organizer Row (Logo + Tên tổ chức cùng hàng) ==== */
-.organizer-section {
-  margin-top: 25px;
-}
+/* ==== Organizer Section ==== */
+.organizer-section { margin-top: 25px; }
 
 .section-label {
   font-size: 16px;
@@ -150,9 +160,8 @@ textarea:focus {
 
 .organizer-row {
   display: flex;
-  align-items: flex-start;
   gap: 24px;
-  background-color: #1a1a1a;
+  background: #1a1a1a;
   border: 1px solid #333;
   padding: 20px;
   border-radius: 10px;
@@ -166,7 +175,7 @@ textarea:focus {
   text-align: center;
   color: #ccc;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: .3s;
 }
 
 .organizer-logo:hover {
@@ -182,37 +191,28 @@ textarea:focus {
 
 .organizer-info label {
   margin-bottom: 6px;
-  font-weight: 600;
   color: #ccc;
 }
 
-.organizer-info input {
-  width: 100%;
+.organizer-info input { width: 100%; }
+
+.organizer-logo p { font-size: 14px; margin: 8px 0 2px; }
+.organizer-logo small { font-size: 12px; color: #777; }
+
+/* Placeholder */
+::placeholder { color: #666; }
+
+.place-holder { margin: 15px 0; }
+
+.section-title {
+  color: #4ade80;
+  font-size: 18px;
+  margin: 15px 0 12px;
+  font-weight: 600;
 }
 
-/* Căn chỉnh văn bản nhỏ */
-.organizer-logo p {
-  font-size: 14px;
-  margin: 8px 0 2px 0;
-}
-
-.organizer-logo small {
-  font-size: 12px;
-  color: #777;
-}
-
-
-::placeholder {
-  color: #666;
-}
-
-.detail-place{
-  margin-right: 20px;
-  font-size: 15px;
-  font-weight: 100;
-}
-
-.place-holder{
-  margin-bottom: 15px;
-  margin-top: 15px;
+/* Height consistency */
+.form-section input,
+.form-section select {
+  min-height: 42px;
 }

@@ -86,51 +86,81 @@ export default function EventInfoTab({ data, updateData, updateNested, errors })
         </div>
       </div>
 
-      {data.mode === 'offline' && (
-        <>
-          <h4>Địa điểm</h4>
-          <div className="form-section">
-            <label>Tên địa điểm *</label>
-            <input value={data.location?.name || ''} onChange={e => updateData({ location: { ...data.location, name: e.target.value } })} />
-            {errors.location_name && <div className="input-error">{errors.location_name}</div>}
-          </div>
+{data.mode === 'offline' && (
+  <>
+    <h4 className="section-title">Địa điểm tổ chức</h4>
 
-          <div className="address-grid">
-            <div>
-              <label>Tỉnh/Thành *</label>
-              <select value={data.location?.province || ''} onChange={e => onProvinceChange(e.target.value)}>
-                <option value="">Chọn tỉnh</option>
-                {provinces.map(p => <option key={p.code} value={p.code}>{p.name}</option>)}
-              </select>
-              {errors.location_province && <div className="input-error">{errors.location_province}</div>}
-            </div>
-            <div>
-              <label>Quận/Huyện *</label>
-              <select value={data.location?.district || ''} onChange={e => onDistrictChange(e.target.value)} disabled={!data.location?.province}>
-                <option value="">Chọn quận</option>
-                {districts.map(d => <option key={d.code} value={d.code}>{d.name}</option>)}
-              </select>
-              {errors.location_district && <div className="input-error">{errors.location_district}</div>}
-            </div>
-          </div>
+    <div className="form-section">
+      <label>Tên địa điểm *</label>
+      <input 
+        value={data.location?.name || ''} 
+        onChange={e => updateData({ location: { ...data.location, name: e.target.value } })} 
+      />
+      {errors.location_name && <div className="input-error">{errors.location_name}</div>}
+    </div>
 
-          <div className="address-grid">
-            <div>
-              <label>Phường/Xã *</label>
-              <select value={data.location?.ward || ''} onChange={e => updateData({ location: { ...data.location, ward: e.target.value } })} disabled={!data.location?.district}>
-                <option value="">Chọn phường</option>
-                {wards.map(w => <option key={w.code} value={w.name}>{w.name}</option>)}
-              </select>
-              {errors.location_ward && <div className="input-error">{errors.location_ward}</div>}
-            </div>
-            <div>
-              <label>Số nhà, đường *</label>
-              <input value={data.location?.addressDetail || ''} onChange={e => updateData({ location: { ...data.location, addressDetail: e.target.value } })} />
-              {errors.location_addressDetail && <div className="input-error">{errors.location_addressDetail}</div>}
-            </div>
-          </div>
-        </>
-      )}
+    <div className="address-card">
+      <div className="address-grid">
+        <div>
+          <label>Tỉnh / Thành phố *</label>
+          <select 
+            value={data.location?.province || ''} 
+            onChange={e => onProvinceChange(e.target.value)}
+          >
+            <option value="">-- Chọn tỉnh --</option>
+            {provinces.map(p => (
+              <option key={p.code} value={p.code}>{p.name}</option>
+            ))}
+          </select>
+          {errors.location_province && <div className="input-error">{errors.location_province}</div>}
+        </div>
+
+        <div>
+          <label>Quận / Huyện *</label>
+          <select 
+            value={data.location?.district || ''} 
+            onChange={e => onDistrictChange(e.target.value)} 
+            disabled={!data.location?.province}
+          >
+            <option value="">-- Chọn quận --</option>
+            {districts.map(d => (
+              <option key={d.code} value={d.code}>{d.name}</option>
+            ))}
+          </select>
+          {errors.location_district && <div className="input-error">{errors.location_district}</div>}
+        </div>
+      </div>
+
+      <div className="address-grid">
+        <div>
+          <label>Phường / Xã *</label>
+          <select 
+            value={data.location?.ward || ''} 
+            onChange={e => updateData({ location: { ...data.location, ward: e.target.value } })}
+            disabled={!data.location?.district}
+          >
+            <option value="">-- Chọn phường --</option>
+            {wards.map(w => (
+              <option key={w.code} value={w.code}>{w.name}</option>
+
+            ))}
+          </select>
+          {errors.location_ward && <div className="input-error">{errors.location_ward}</div>}
+        </div>
+
+        <div>
+          <label>Số nhà, đường *</label>
+          <input 
+            value={data.location?.addressDetail || ''} 
+            onChange={e => updateData({ location: { ...data.location, addressDetail: e.target.value } })}
+          />
+          {errors.location_addressDetail && <div className="input-error">{errors.location_addressDetail}</div>}
+        </div>
+      </div>
+    </div>
+  </>
+)}
+
 
       <div className="form-section">
         <label>Thể loại *</label>

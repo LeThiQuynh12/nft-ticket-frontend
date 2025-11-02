@@ -1,7 +1,10 @@
 import '../styles/AdminUsers.css';
 import '../styles/admin.css';
 
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import {
   FaEdit,
@@ -10,48 +13,88 @@ import {
   FaUsers,
 } from 'react-icons/fa';
 
+import userApi from '../../api/userApi';
 import AdminHeader from '../components/AdminHeader';
 import AdminSidebar from '../components/AdminSidebar';
 
 export default function AdminUsers() {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'Nguyễn Văn A', email: 'vana@example.com', role: 'Người dùng', status: 'Hoạt động' },
-    { id: 2, name: 'Trần Thị B', email: 'thib@example.com', role: 'Quản trị viên', status: 'Hoạt động' },
-    { id: 3, name: 'Lê Văn C', email: 'levc@example.com', role: 'Người dùng', status: 'Bị khóa' },
-    { id: 4, name: 'Phạm Thị D', email: 'phamtd@example.com', role: 'Người dùng', status: 'Hoạt động' },
-  ]);
-
+  const [users, setUsers] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // 🟢 Xem chi tiết
+  // ✅ Fetch users từ backend khi load trang
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+const fetchUsers = async () => {
+  try {
+    setLoading(true);
+    const res = await userApi.getAll();
+
+    if (!res.data || !res.data.users) throw new Error("Invalid API response");
+
+    const formattedUsers = res.data.users.map(u => ({
+      ...u,
+      status: u.lockUntil ? 'Bị khóa' : 'Hoạt động',
+      role: u.role === 'admin' ? 'Quản trị viên' : 'Người dùng'
+    }));
+
+    setUsers(formattedUsers);
+  } catch (err) {
+    console.error("❌ Lỗi khi load users", err);
+    alert("Không thể tải danh sách người dùng");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+  // 🟢 Xem thông tin
   const handleView = (user) => {
     setSelectedUser(user);
     setEditMode(false);
     setShowPopup(true);
   };
 
-  // 🟡 Sửa thông tin
+  // 🟡 Sửa
   const handleEdit = (user) => {
     setSelectedUser(user);
     setEditMode(true);
     setShowPopup(true);
   };
 
-  // 🔴 Xóa người dùng
-  const handleDelete = (id) => {
-    if (window.confirm('⚠️ Bạn có chắc muốn xóa người dùng này?')) {
-      setUsers(users.filter((u) => u.id !== id));
+  // 🔴 Xoá
+  const handleDelete = async (id) => {
+    if (!window.confirm("⚠️ Bạn chắc chắn muốn xoá user này?")) return;
+
+    try {
+      await userApi.delete(id);
+      alert("✅ Xoá thành công");
+      fetchUsers();
+    } catch (err) {
+      alert("❌ Lỗi khi xoá user");
     }
   };
 
-  // ✅ Lưu thông tin sửa
-  const handleSave = () => {
-    setUsers(
-      users.map((u) => (u.id === selectedUser.id ? selectedUser : u))
-    );
-    setShowPopup(false);
+  // ✅ Lưu sửa user
+  const handleSave = async () => {
+    try {
+      await userApi.update(selectedUser._id, {
+        name: selectedUser.name,
+        email: selectedUser.email,
+        role: selectedUser.role === 'Quản trị viên' ? 'admin' : 'user',
+        status: selectedUser.status === 'Bị khóa' ? 'blocked' : 'active'
+      });
+
+      alert("✅ Cập nhật thành công");
+      setShowPopup(false);
+      fetchUsers();
+    } catch (err) {
+      alert("❌ Không thể cập nhật user");
+    }
   };
 
   return (
@@ -65,71 +108,75 @@ export default function AdminUsers() {
             <h2><FaUsers className="icon-users" /> Quản lý người dùng</h2>
           </div>
 
-          <table className="users-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Họ tên</th>
-                <th>Email</th>
-                <th>Vai trò</th>
-                <th>Trạng thái</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((u) => (
-                <tr key={u.id}>
-                  <td>{u.id}</td>
-                  <td>{u.name}</td>
-                  <td>{u.email}</td>
-                  <td>{u.role}</td>
-                  <td className={u.status === 'Bị khóa' ? 'status-locked' : 'status-active'}>
-                    {u.status}
-                  </td>
-                  <td className="action-cell">
-                    <button className="icon-btn view-btn" title="Xem" onClick={() => handleView(u)}>
-                      <FaEye />
-                    </button>
-                    <button className="icon-btn edit-btn" title="Sửa" onClick={() => handleEdit(u)}>
-                      <FaEdit />
-                    </button>
-                    <button className="icon-btn delete-btn" title="Xóa" onClick={() => handleDelete(u.id)}>
-                      <FaTrash />
-                    </button>
-                  </td>
+          {loading ? (
+            <p>Đang tải...</p>
+          ) : (
+            <table className="users-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Họ tên</th>
+                  <th>Email</th>
+                  <th>Vai trò</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u._id}>
+                    <td>{u._id}</td>
+                    <td>{u.name}</td>
+                    <td>{u.email}</td>
+                    <td>{u.role}</td>
+                    <td className={u.status === 'Bị khóa' ? 'status-locked' : 'status-active'}>
+                      {u.status}
+                    </td>
+                    <td className="action-cell">
+                      <button className="icon-btn view-btn" title="Xem" onClick={() => handleView(u)}>
+                        <FaEye />
+                      </button>
+                      <button className="icon-btn edit-btn" title="Sửa" onClick={() => handleEdit(u)}>
+                        <FaEdit />
+                      </button>
+                      <button className="icon-btn delete-btn" title="Xóa" onClick={() => handleDelete(u._id)}>
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
-        {/* Popup chi tiết/sửa người dùng */}
-        {showPopup && (
+        {/* Popup */}
+        {showPopup && selectedUser && (
           <div className="popup-overlay">
             <div className="popup">
-              <h3>{editMode ? 'Chỉnh sửa người dùng' : 'Thông tin người dùng'}</h3>
+              <h3>{editMode ? "Chỉnh sửa người dùng" : "Thông tin người dùng"}</h3>
 
               <label>Họ tên</label>
               <input
                 type="text"
                 value={selectedUser.name}
-                onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
                 disabled={!editMode}
+                onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
               />
 
               <label>Email</label>
               <input
                 type="text"
                 value={selectedUser.email}
-                onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
                 disabled={!editMode}
+                onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
               />
 
               <label>Vai trò</label>
               <select
                 value={selectedUser.role}
-                onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}
                 disabled={!editMode}
+                onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}
               >
                 <option>Người dùng</option>
                 <option>Quản trị viên</option>
@@ -138,8 +185,8 @@ export default function AdminUsers() {
               <label>Trạng thái</label>
               <select
                 value={selectedUser.status}
-                onChange={(e) => setSelectedUser({ ...selectedUser, status: e.target.value })}
                 disabled={!editMode}
+                onChange={(e) => setSelectedUser({ ...selectedUser, status: e.target.value })}
               >
                 <option>Hoạt động</option>
                 <option>Bị khóa</option>

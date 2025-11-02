@@ -1,205 +1,166 @@
 import '../../styles/EventInfoTab.css';
 
-import React, { useState } from 'react';
+// File: src/components/create-event/EventInfoTab.jsx
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import { FaFileUpload } from 'react-icons/fa';
 
-export default function EventInfoTab({ data, setData }) {
-  const [errors, setErrors] = useState({});
+import categoryApi from '../../../api/categoryApi';
+import locationApi from '../../../api/locationApi';
 
-  const handleChange = (field, value) => {
-    setData({ ...data, [field]: value });
+export default function EventInfoTab({ data, updateData, updateNested, errors }) {
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const [prov, cat] = await Promise.all([locationApi.getProvinces(), categoryApi.getAll()]);
+        setProvinces(prov.data || []);
+        setCategories(cat.data || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
+  const onProvinceChange = async (code) => {
+    const loc = { ...data.location, province: code, district: '', ward: '' };
+    updateData({ location: loc });
+    setDistricts([]); setWards([]);
+    if (!code) return;
+    try { const res = await locationApi.getDistricts(code); setDistricts(res.data || []); } catch (e) {}
   };
 
-  const validateField = (field, value) => {
-    setErrors((prev) => ({
-      ...prev,
-      [field]: !value ? "Vui lòng nhập thông tin bắt buộc" : "",
-    }));
+  const onDistrictChange = async (code) => {
+    const loc = { ...data.location, district: code, ward: '' };
+    updateData({ location: loc });
+    setWards([]);
+    if (!code) return;
+    try { const res = await locationApi.getWards(code); setWards(res.data || []); } catch (e) {}
+  };
+
+  const handleFile = (field, file) => {
+    if (!file) return updateData({ [field]: null });
+    if (file.size > 5 * 1024 * 1024) return alert('Ảnh phải < 5MB');
+    updateData({ [field]: file });
   };
 
   return (
     <div className="event-info-tab">
-      <h3 className="tab-title">Thông tin sự kiện</h3>
+      <h3>Thông tin sự kiện</h3>
 
-      {/* Upload ảnh */}
       <div className="upload-section">
         <div className="upload-box small">
-          <FaFileUpload className="upload-icon" />
-          <p>Thêm ảnh sự kiện để hiển thị ở các vị trí khác</p>
+          <FaFileUpload />
+          <p>Gallery</p>
+          <input type="file" multiple accept="image/*" onChange={e => updateData({ gallery: Array.from(e.target.files) })} />
         </div>
         <div className="upload-box large">
-          <FaFileUpload className="upload-icon" />
-          <p>Thêm ảnh nền sự kiện</p>
+          <FaFileUpload />
+          <p>Ảnh bìa</p>
+          <input type="file" accept="image/*" onChange={e => handleFile('coverImage', e.target.files[0])} />
         </div>
       </div>
 
-      {/* Tên sự kiện */}
       <div className="form-section">
-        <label>Tên sự kiện <span style={{color:"red"}}>*</span></label>
-        <input
-          type="text"
-          value={data.name}
-          placeholder="Nhập tên sự kiện"
-          onChange={(e) => handleChange("name", e.target.value)}
-          onBlur={(e) => validateField("name", e.target.value)}
-          className={errors.name ? "error" : ""}
-        />
-        {errors.name && <small className="error-text">{errors.name}</small>}
+        <label>Tên sự kiện *</label>
+        <input value={data.name || ''} onChange={e => updateData({ name: e.target.value })} />
+        {errors.name && <div className="input-error">{errors.name}</div>}
       </div>
 
-      {/* Chọn loại sự kiện Online/Offline */}
       <div className="form-section">
-        <label>Địa điểm sự kiện <span style={{color:"red"}}>*</span></label>
+        <label>Loại *</label>
         <div className="radio-group">
-          <label className="detail-place">
-            <input
-              type="radio"
-              name="eventMode"
-              value="offline"
-              checked={data.mode === "offline"}
-              onChange={(e) => handleChange("mode", e.target.value)}
-            />
-            Sự kiện Offline
-          </label>
-          <label className="detail-place">
-            <input
-              type="radio"
-              name="eventMode"
-              value="online"
-              checked={data.mode === "online"}
-              onChange={(e) => handleChange("mode", e.target.value)}
-            />
-            Sự kiện Online
-          </label>
+          <label><input type="radio" name="mode" checked={data.mode === 'offline'} onChange={() => updateData({ mode: 'offline' })} /> Offline</label>
+          <label><input type="radio" name="mode" checked={data.mode === 'online'} onChange={() => updateData({ mode: 'online' })} /> Online</label>
         </div>
       </div>
 
-      {/* Nếu chọn Offline thì hiển thị phần địa điểm */}
-      {data.mode === "offline" && (
-        <div>
-          <h4 >Địa điểm tổ chức</h4>
-
+      {data.mode === 'offline' && (
+        <>
+          <h4>Địa điểm</h4>
           <div className="form-section">
-            <label>Tên địa điểm <span style={{color:"red"}}>*</span></label>
-            <input
-              type="text"
-              placeholder="Nhập tên địa điểm"
-              value={data.locationName || ""}
-              onChange={(e) => handleChange("locationName", e.target.value)}
-              onBlur={(e) => validateField("locationName", e.target.value)}
-              className={errors.locationName ? "error" : ""}
-            />
-            {errors.locationName && (
-              <small className="error-text">{errors.locationName}</small>
-            )}
+            <label>Tên địa điểm *</label>
+            <input value={data.location?.name || ''} onChange={e => updateData({ location: { ...data.location, name: e.target.value } })} />
+            {errors.location_name && <div className="input-error">{errors.location_name}</div>}
           </div>
 
           <div className="address-grid">
             <div>
-              <label className="detail-place">Tỉnh/Thành <span style={{color:"red"}}>*</span></label>
-              <input
-                className="place-holder"
-                type="text"
-                placeholder="Nhập Tỉnh/Thành"
-                value={data.province || ""}
-                onChange={(e) => handleChange("province", e.target.value)}
-              />
+              <label>Tỉnh/Thành *</label>
+              <select value={data.location?.province || ''} onChange={e => onProvinceChange(e.target.value)}>
+                <option value="">Chọn tỉnh</option>
+                {provinces.map(p => <option key={p.code} value={p.code}>{p.name}</option>)}
+              </select>
+              {errors.location_province && <div className="input-error">{errors.location_province}</div>}
             </div>
             <div>
-              <label className="detail-place">Quận/Huyện <span style={{color:"red"}}>*</span></label>
-              <input
-                className="place-holder"
-                type="text"
-                placeholder="Nhập Quận/Huyện"
-                value={data.district || ""}
-                onChange={(e) => handleChange("district", e.target.value)}
-              />
+              <label>Quận/Huyện *</label>
+              <select value={data.location?.district || ''} onChange={e => onDistrictChange(e.target.value)} disabled={!data.location?.province}>
+                <option value="">Chọn quận</option>
+                {districts.map(d => <option key={d.code} value={d.code}>{d.name}</option>)}
+              </select>
+              {errors.location_district && <div className="input-error">{errors.location_district}</div>}
             </div>
           </div>
 
           <div className="address-grid">
             <div>
-              <label className="detail-place">Phường/Xã <span style={{color:"red"}}>*</span></label>
-              <input
-                type="text"
-                className="place-holder"
-                placeholder="Nhập Phường/Xã"
-                value={data.ward || ""}
-                onChange={(e) => handleChange("ward", e.target.value)}
-              />
+              <label>Phường/Xã *</label>
+              <select value={data.location?.ward || ''} onChange={e => updateData({ location: { ...data.location, ward: e.target.value } })} disabled={!data.location?.district}>
+                <option value="">Chọn phường</option>
+                {wards.map(w => <option key={w.code} value={w.name}>{w.name}</option>)}
+              </select>
+              {errors.location_ward && <div className="input-error">{errors.location_ward}</div>}
             </div>
             <div>
-              <label className="detail-place">Số nhà, đường <span style={{color:"red"}}>*</span></label>
-              <input
-                type="text"
-                className="place-holder"
-                placeholder="Nhập số nhà, đường"
-                value={data.addressDetail || ""}
-                onChange={(e) => handleChange("addressDetail", e.target.value)}
-              />
+              <label>Số nhà, đường *</label>
+              <input value={data.location?.addressDetail || ''} onChange={e => updateData({ location: { ...data.location, addressDetail: e.target.value } })} />
+              {errors.location_addressDetail && <div className="input-error">{errors.location_addressDetail}</div>}
             </div>
           </div>
-        </div>
+        </>
       )}
 
-      {/* Thể loại sự kiện */}
       <div className="form-section">
-        <label>Thể loại sự kiện <span style={{color:"red"}}>*</span></label>
-        <select
-          value={data.type}
-          onChange={(e) => handleChange("type", e.target.value)}
-          onBlur={(e) => validateField("type", e.target.value)}
-          className={errors.type ? "error" : ""}
-        >
-          <option value="">Vui lòng chọn</option>
-          <option>Ca nhạc</option>
-          <option>Tham quan</option>
-          <option>Văn hóa nghệ thuật</option>
-          <option>Thể thao</option>
-        </select>
-        {errors.type && <small className="error-text">{errors.type}</small>}
-      </div>
-
-      {/* Mô tả chi tiết */}
-      <div className="form-section">
-        <label>Thông tin sự kiện <span style={{color:"red"}}>*</span></label>
-        <textarea
-          rows="8"
-          placeholder="Giới thiệu chi tiết về sự kiện..."
-          value={data.description}
-          onChange={(e) => handleChange("description", e.target.value)}
-          onBlur={(e) => validateField("description", e.target.value)}
-          className={errors.description ? "error" : ""}
-        />
-        {errors.description && (
-          <small className="error-text">{errors.description}</small>
+        <label>Thể loại *</label>
+        {loading ? <p>Đang tải...</p> : (
+          <select value={data.category || ''} onChange={e => updateData({ category: e.target.value })}>
+            <option value="">Chọn thể loại</option>
+            {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+          </select>
         )}
+        {errors.category && <div className="input-error">{errors.category}</div>}
       </div>
 
-      {/* Logo và thông tin ban tổ chức */}
-      <div className="form-section organizer-section">
-        <label>Thông tin ban tổ chức <span style={{color:"red"}}>*</span></label>
+      <div className="form-section">
+        <label>Mô tả *</label>
+        <textarea rows={6} value={data.description || ''} onChange={e => updateData({ description: e.target.value })} />
+        {errors.description && <div className="input-error">{errors.description}</div>}
+      </div>
 
+      <div className="organizer-section">
+        <label>Ban tổ chức *</label>
         <div className="organizer-row">
           <div className="upload-box organizer-logo">
-            <FaFileUpload className="upload-icon" />
-            <p>Logo ban tổ chức</p>
+            <FaFileUpload />
+            <p>Logo</p>
+            <input type="file" accept="image/*" onChange={e => handleFile('organizerLogo', e.target.files[0])} />
+            {data.organizerLogo && <img src={URL.createObjectURL(data.organizerLogo)} alt="logo" style={{ width: 80, marginTop: 8, borderRadius: 8 }} />}
           </div>
-
           <div className="organizer-info">
-            <label>Tên ban tổ chức <span style={{color:"red"}}>*</span></label>
-            <input
-              type="text"
-              placeholder="Nhập tên ban tổ chức"
-              value={data.organizer || ""}
-              onChange={(e) => handleChange("organizer", e.target.value)}
-              onBlur={(e) => validateField("organizer", e.target.value)}
-              className={errors.organizer ? "error" : ""}
-            />
-            {errors.organizer && (
-              <small className="error-text">{errors.organizer}</small>
-            )}
+            <input value={data.organizer || ''} onChange={e => updateData({ organizer: e.target.value })} placeholder="Tên ban tổ chức" />
+            {errors.organizer && <div className="input-error">{errors.organizer}</div>}
           </div>
         </div>
       </div>

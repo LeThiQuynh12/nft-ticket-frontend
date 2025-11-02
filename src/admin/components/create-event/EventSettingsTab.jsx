@@ -1,5 +1,6 @@
 import '../../styles/EventSettingsTab.css';
 
+// File: src/components/create-event/EventSettingsTab.jsx
 import React from 'react';
 
 import {
@@ -8,52 +9,22 @@ import {
   FaLock,
 } from 'react-icons/fa';
 
-export default function EventSettingsTab({ onPrev }) {
+export default function EventSettingsTab({ data, updateData, errors }) {
   return (
     <div className="event-settings-tab">
-      {/* Quyền riêng tư sự kiện */}
       <div className="section">
-        <h4 className="section-title">
-          <FaLock className="icon orange" /> Quyền riêng tư sự kiện
-        </h4>
-        <div className="privacy-options">
-          <label className="radio-option">
-            <input type="radio" name="privacy" defaultChecked />
-            <div className="radio-content">
-              <strong>
-                <FaGlobe className="inline-icon" /> Sự kiện mở cho mọi người
-              </strong>
-              <p>Tất cả mọi người đều có thể đặt vé</p>
-            </div>
-          </label>
-          <label className="radio-option">
-            <input type="radio" name="privacy" />
-            <div className="radio-content">
-              <strong>
-                <FaLock className="inline-icon" /> Sự kiện dành riêng cho 1 nhóm
-              </strong>
-              <p>Chỉ người có link truy cập mới đặt được vé</p>
-            </div>
-          </label>
-        </div>
+        <h4><FaLock /> Quyền riêng tư</h4>
+        <label><input type="radio" name="p" checked={data.privacy === 'public'} onChange={() => updateData({ privacy: 'public' })} /> <FaGlobe /> Công khai</label>
+        <label><input type="radio" name="p" checked={data.privacy === 'private'} onChange={() => updateData({ privacy: 'private' })} /> <FaLock /> Riêng tư</label>
+        {errors.privacy && <div className="input-error">{errors.privacy}</div>}
       </div>
 
-      {/* Tin nhắn xác nhận */}
       <div className="section">
-        <h4 className="section-title">
-          <FaEnvelope className="icon blue" /> Tin nhắn xác nhận cho người tham gia
-        </h4>
-        <p className="section-desc">
-          Tin nhắn xác nhận này sẽ được gửi đến người tham gia sau khi đặt vé thành công.
-        </p>
-        <textarea
-          className="confirmation-message"
-          placeholder="Nhập nội dung tin nhắn xác nhận..."
-          rows="6"
-        ></textarea>
-        <div className="input-counter">0 / 500</div>
+        <h4><FaEnvelope /> Tin nhắn xác nhận</h4>
+        <textarea rows={6} maxLength={500} placeholder="Cảm ơn bạn đã đặt vé!" value={data.confirmationMessage || ''} onChange={e => updateData({ confirmationMessage: e.target.value })} />
+        <div className="input-counter">{(data.confirmationMessage || '').length}/500</div>
+        {errors.confirmationMessage && <div className="input-error">{errors.confirmationMessage}</div>}
       </div>
-
     </div>
   );
 }

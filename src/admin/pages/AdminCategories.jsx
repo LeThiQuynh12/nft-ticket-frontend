@@ -30,7 +30,7 @@ export default function AdminCategories() {
     try {
       setLoading(true);
       const res = await categoryApi.getAll();
-      setCategories(res.data.categories || []); // backend trả về { categories: [...] }
+      setCategories(res.data || []); // backend trả về { categories: [...] }
     } catch (err) {
       console.error("Lỗi tải danh mục:", err);
       alert("Không thể tải danh mục!");

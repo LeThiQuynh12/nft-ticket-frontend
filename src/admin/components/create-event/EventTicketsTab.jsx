@@ -1,5 +1,6 @@
-import '../../styles/EventTicketsTab.css';
+import '../../styles/EventInfoTab.css';
 
+// File: src/components/create-event/EventTicketsTab.jsx
 import React, { useState } from 'react';
 
 import {
@@ -8,170 +9,100 @@ import {
   FaTrashAlt,
 } from 'react-icons/fa';
 
-export default function EventTicketsTab() {
-  const [showTicketModal, setShowTicketModal] = useState(false);
-  const [tickets, setTickets] = useState([]); // danh sách loại vé
-  const [seatMap, setSeatMap] = useState(null); // lưu ảnh sơ đồ ghế
+export default function EventTicketsTab({ data, updateData, errors }) {
+  const [showModal, setShowModal] = useState(false);
 
-  const handleTicketSubmit = (e) => {
+  const addTicket = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const newTicket = {
-      name: form.ticketName.value,
-      price: form.ticketPrice.value,
-      total: form.ticketTotal.value,
-      min: form.ticketMin.value,
-      max: form.ticketMax.value,
+    const f = e.target;
+    const ticket = {
+      name: f.ticketName.value.trim(),
+      price: Number(f.ticketPrice.value) || 0,
+      totalQuantity: Number(f.ticketTotal.value) || 0,
+      minPerOrder: Number(f.ticketMin.value) || 1,
+      maxPerOrder: Number(f.ticketMax.value) || 1,
     };
-    setTickets([...tickets, newTicket]);
-    setShowTicketModal(false);
+    updateData({ ticketTypes: [...(data.ticketTypes || []), ticket] });
+    setShowModal(false);
+    f.reset();
   };
 
-  const handleSeatMapUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSeatMap(URL.createObjectURL(file));
-    }
-  };
+  const removeTicket = (i) => updateData({ ticketTypes: data.ticketTypes.filter((_, idx) => idx !== i) });
 
-  const removeTicket = (index) => {
-    setTickets(tickets.filter((_, i) => i !== index));
+  const onDateChange = (field, val) => updateData({ [field]: val ? new Date(val).toISOString() : '' });
+
+  const handleFile = (field, file) => {
+    if (!file) return updateData({ [field]: null });
+    if (file.size > 5 * 1024 * 1024) return alert('Ảnh phải < 5MB');
+    updateData({ [field]: file });
   };
 
   return (
     <div className="event-time-section">
-      <h3 className="ets-title">Thời Gian</h3>
+      <h3>Thời Gian & Vé</h3>
 
       <div className="ets-card">
-        {/* --- Thời gian sự kiện --- */}
-        <div className="ets-collapse-header">Ngày sự kiện</div>
         <div className="ets-form-row">
           <div className="ets-form-group">
-            <label>Thời gian bắt đầu</label>
-            <input type="datetime-local" />
+            <label>Bắt đầu</label>
+            <input type="datetime-local" defaultValue={data.startAt ? new Date(data.startAt).toISOString().slice(0,16) : ''} onChange={e => onDateChange('startAt', e.target.value)} />
+            {errors.startAt && <div className="input-error">{errors.startAt}</div>}
           </div>
           <div className="ets-form-group">
-            <label>Thời gian kết thúc</label>
-            <input type="datetime-local" />
+            <label>Kết thúc</label>
+            <input type="datetime-local" defaultValue={data.endAt ? new Date(data.endAt).toISOString().slice(0,16) : ''} onChange={e => onDateChange('endAt', e.target.value)} />
+            {errors.endAt && <div className="input-error">{errors.endAt}</div>}
           </div>
         </div>
 
-        {/* --- Phần loại vé --- */}
-        <div className="ets-ticket-type">
-          <label className="ets-required">* Loại vé</label>
-          <button
-            className="ets-add-btn"
-            onClick={() => setShowTicketModal(true)}
-          >
-            <FaPlus className="ic-faplus" /> Tạo loại vé mới
-          </button>
-        </div>
+        <button className="ets-add-btn" onClick={() => setShowModal(true)}><FaPlus /> Thêm loại vé</button>
+        {errors.ticketTypes && <div className="input-error">{errors.ticketTypes}</div>}
 
-        {/* --- Hiển thị danh sách loại vé --- */}
-        {tickets.length > 0 && (
-          <div className="ticket-list">
-            <h4>Danh sách loại vé</h4>
-            <table className="ticket-table">
-              <thead>
-                <tr>
-                  <th>Tên vé</th>
-                  <th>Giá vé (VNĐ)</th>
-                  <th>Tổng SL</th>
-                  <th>Tối thiểu</th>
-                  <th>Tối đa</th>
-                  <th>Thao tác</th>
+        {data.ticketTypes && data.ticketTypes.length > 0 && (
+          <table className="ticket-table">
+            <thead><tr><th>Tên</th><th>Giá</th><th>SL</th><th>Min</th><th>Max</th><th></th></tr></thead>
+            <tbody>
+              {data.ticketTypes.map((t, i) => (
+                <tr key={i}>
+                  <td>{t.name}</td>
+                  <td>{Number(t.price).toLocaleString()}</td>
+                  <td>{t.totalQuantity}</td>
+                  <td>{t.minPerOrder}</td>
+                  <td>{t.maxPerOrder}</td>
+                  <td><button onClick={() => removeTicket(i)}><FaTrashAlt /></button></td>
                 </tr>
-              </thead>
-              <tbody>
-                {tickets.map((t, i) => (
-                  <tr key={i}>
-                    <td>{t.name}</td>
-                    <td>{t.price}</td>
-                    <td>{t.total}</td>
-                    <td>{t.min}</td>
-                    <td>{t.max}</td>
-                    <td>
-                      <button
-                        className="ticket-delete-btn"
-                        onClick={() => removeTicket(i)}
-                      >
-                        <FaTrashAlt />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         )}
 
-        {/* --- Phần sơ đồ ghế --- */}
         <div className="seatmap-section">
-          <label className="ets-required">* Ảnh sơ đồ ghế</label>
+          <label>* Sơ đồ ghế</label>
           <div className="et-upload-box">
-            <FaFileUpload className="et-upload-icon" />
-            <p>Tải ảnh sơ đồ ghế (PNG, JPG, tối đa 5MB)</p>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleSeatMapUpload}
-              className="seatmap-input"
-            />
+            <FaFileUpload />
+            <p>PNG, JPG &lt; 5MB</p>
+            <input type="file" accept="image/*" onChange={e => handleFile('seatMap', e.target.files[0])} />
           </div>
-          {seatMap && (
-            <div className="seatmap-preview">
-              <img src={seatMap} alt="Sơ đồ ghế" />
-            </div>
-          )}
+          {errors.seatMap && <div className="input-error">{errors.seatMap}</div>}
+          {data.seatMap && <img src={URL.createObjectURL(data.seatMap)} alt="seatmap" style={{ maxWidth: '100%', marginTop: 10 }} />}
         </div>
       </div>
 
-      {/* --- Popup tạo vé mới --- */}
-      {showTicketModal && (
-        <div className="ets-modal-overlay">
-          <div className="ets-modal">
-            <button
-              className="ets-close-btn"
-              onClick={() => setShowTicketModal(false)}
-            >
-              ×
-            </button>
-
-            <div className="event-tickets-tab">
-              <h2 className="et-modal-title">Tạo loại vé mới</h2>
-
-              <form className="et-ticket-form" onSubmit={handleTicketSubmit}>
-                {/* Tên vé */}
-                <div className="et-form-group et-full">
-                  <label>* Tên vé</label>
-                  <input name="ticketName" type="text" placeholder="Tên vé" required />
-                </div>
-
-                {/* Giá & Số lượng */}
-                <div className="et-form-row">
-                  <div className="et-form-group et-small">
-                    <label>* Giá vé</label>
-                    <input name="ticketPrice" type="number" placeholder="Giá vé" required />
-                  </div>
-                  <div className="et-form-group et-small">
-                    <label>* Tổng số lượng vé</label>
-                    <input name="ticketTotal" type="number" placeholder="10" required />
-                  </div>
-                  <div className="et-form-group et-small">
-                    <label>* Số vé tối thiểu</label>
-                    <input name="ticketMin" type="number" placeholder="1" required />
-                  </div>
-                  <div className="et-form-group et-small">
-                    <label>* Số vé tối đa</label>
-                    <input name="ticketMax" type="number" placeholder="10" required />
-                  </div>
-                </div>
-
-                <button type="submit" className="et-btn-save">
-                  Lưu
-                </button>
-              </form>
-            </div>
+      {showModal && (
+        <div className="ets-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="ets-modal" onClick={e => e.stopPropagation()}>
+            <button className="ets-close-btn" onClick={() => setShowModal(false)}>×</button>
+            <h2>Tạo loại vé</h2>
+            <form onSubmit={addTicket}>
+              <input name="ticketName" placeholder="Tên vé" required />
+              <div className="et-form-row">
+                <input name="ticketPrice" type="number" placeholder="Giá" required />
+                <input name="ticketTotal" type="number" placeholder="Tổng SL" required />
+                <input name="ticketMin" type="number" placeholder="Min" required />
+                <input name="ticketMax" type="number" placeholder="Max" required />
+              </div>
+              <button type="submit">Lưu</button>
+            </form>
           </div>
         </div>
       )}

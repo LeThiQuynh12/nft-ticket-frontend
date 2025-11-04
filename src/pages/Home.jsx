@@ -67,11 +67,10 @@ export default function Home() {
       <Header />
       <NavCategories />
       <HeroCarousel slides={slides} />
-
       <SectionHighlight events={highlight} />
       <SectionMusic events={music} />
-      <SectionTravel events={travel} />
       <SectionCulture events={culture} />
+      <SectionTravel events={travel} />
       <SectionOther events={other} />
 
       <Footer />

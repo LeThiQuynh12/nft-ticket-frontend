@@ -27,18 +27,41 @@ export default function MusicDetail() {
             title: found.name,
             banner: `http://localhost:5003${found.coverImage}`,
             description: found.description,
-            date: found.startAt,
-            location: found.location?.province || "Chưa rõ",
-            seatMap: `http://localhost:5003${found.seatMapUrl}`,
+
+            // ✅ thời gian đầy đủ
+            startAt: found.startAt,
+            endAt: found.endAt,
+            saleStartAt: found.saleStartAt,
+            saleEndAt: found.saleEndAt,
+
+            // ✅ địa điểm
+            locationFull: `${found.location?.name || ""}, ${
+              found.location?.addressDetail || ""
+            }, ${found.location?.ward || ""}, ${
+              found.location?.district || ""
+            }, ${found.location?.province || ""}`,
+
+            seatMap: found.seatMapUrl
+              ? `http://localhost:5003${found.seatMapUrl}`
+              : null,
+
             organizer: found.organizer,
-            organizerLogo: `http://localhost:5003${found.organizerLogo}`,
-            ticketInfo: found.ticketTypes?.map((t) => ({
-              type: t.name,
-              price: t.price,
-            })) || [],
-            gifts: [],
+            organizerLogo: found.organizerLogo
+              ? `http://localhost:5003${found.organizerLogo}`
+              : null,
+
+            ticketInfo:
+              found.ticketTypes?.map((t) => ({
+                type: t.name,
+                price: t.price,
+              })) || [],
+
+            gallery:
+              found.gallery?.map((g) => `http://localhost:5003${g}`) || [],
+
             views: found.views || 0,
-            email: found.paymentInfo?.invoice?.fullName || "info@luxgo.vn",
+
+            email: found.paymentInfo?.invoice?.fullName || "support@gmail.com",
             hotline: [found.paymentInfo?.accountNumber || "1900 1234"],
           });
         }
@@ -57,7 +80,7 @@ export default function MusicDetail() {
   return (
     <div className="detail-page">
       <Header />
-      {/* ✅ Truyền event thay vì fetchEvents */}
+
       <EventDetail event={event} category="music" />
     </div>
   );

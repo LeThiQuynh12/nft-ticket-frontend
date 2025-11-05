@@ -16,7 +16,7 @@ export default function WorkshopPage() {
     const fetchEvents = async () => {
       try {
         // ✅ Gọi API theo slug `workshop`
-        const res = await eventApi.getEventsByCategory("workshop");
+        const res = await eventApi.getEventsByCategory("work-shop");
         const data = res.events || res;
 
         setEvents(

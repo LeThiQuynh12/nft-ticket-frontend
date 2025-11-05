@@ -52,7 +52,7 @@ export default function SectionCulture() {
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,
               }}
-              onView={() => navigate(`/culture/${ev._id}`)}
+              onView={() => navigate(`/art/${ev._id}`)}
             />
           ))
         )}

@@ -15,7 +15,7 @@ export default function SectionOther() {
   const [loading, setLoading] = useState(true);
 
   // Slug các danh mục đã liệt kê
-  const excludedCategories = ['ca-nhac', 'du-lich', 'van-hoa-nghe-thuat'];
+  const excludedCategories = ['ca-nhac', 'du-lich', 'van-hoa-nghe-thuat','work-shop'];
 
   useEffect(() => {
     const fetchEvents = async () => {

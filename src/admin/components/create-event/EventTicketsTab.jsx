@@ -42,18 +42,50 @@ export default function EventTicketsTab({ data, updateData, errors }) {
       <h3>Thời Gian & Vé</h3>
 
       <div className="ets-card">
-        <div className="ets-form-row">
-          <div className="ets-form-group">
-            <label>Bắt đầu</label>
-            <input type="datetime-local" defaultValue={data.startAt ? new Date(data.startAt).toISOString().slice(0,16) : ''} onChange={e => onDateChange('startAt', e.target.value)} />
-            {errors.startAt && <div className="input-error">{errors.startAt}</div>}
-          </div>
-          <div className="ets-form-group">
-            <label>Kết thúc</label>
-            <input type="datetime-local" defaultValue={data.endAt ? new Date(data.endAt).toISOString().slice(0,16) : ''} onChange={e => onDateChange('endAt', e.target.value)} />
-            {errors.endAt && <div className="input-error">{errors.endAt}</div>}
-          </div>
-        </div>
+
+<div className="ets-form-row">
+  <div className="ets-form-group">
+    <label>Bắt đầu</label>
+    <input
+      type="datetime-local"
+      value={data.startAt ? data.startAt.slice(0,16) : ""}
+      onChange={e => updateData({ startAt: e.target.value })}
+    />
+    {errors.startAt && <div className="input-error">{errors.startAt}</div>}
+  </div>
+
+  <div className="ets-form-group">
+    <label>Kết thúc</label>
+    <input
+      type="datetime-local"
+      value={data.endAt ? data.endAt.slice(0,16) : ""}
+      onChange={e => updateData({ endAt: e.target.value })}
+    />
+    {errors.endAt && <div className="input-error">{errors.endAt}</div>}
+  </div>
+</div>
+
+<div className="ets-form-row">
+  <div className="ets-form-group">
+    <label>Thời gian mở bán vé</label>
+    <input
+      type="datetime-local"
+      value={data.saleStartAt ? data.saleStartAt.slice(0,16) : ""}
+      onChange={e => updateData({ saleStartAt: e.target.value })}
+    />
+    {errors.saleStartAt && <div className="input-error">{errors.saleStartAt}</div>}
+  </div>
+
+  <div className="ets-form-group">
+    <label>Thời gian đóng bán vé</label>
+    <input
+      type="datetime-local"
+      value={data.saleEndAt ? data.saleEndAt.slice(0,16) : ""}
+      onChange={e => updateData({ saleEndAt: e.target.value })}
+    />
+    {errors.saleEndAt && <div className="input-error">{errors.saleEndAt}</div>}
+  </div>
+</div>
 
         <button className="ets-add-btn" onClick={() => setShowModal(true)}><FaPlus /> Thêm loại vé</button>
         {errors.ticketTypes && <div className="input-error">{errors.ticketTypes}</div>}

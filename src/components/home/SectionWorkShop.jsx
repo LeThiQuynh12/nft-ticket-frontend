@@ -9,7 +9,7 @@ import eventApi from '../../api/eventApi';
 import EventCard from './EventCard';
 import SectionTitle from './SectionTitle';
 
-export default function SectionMusic() {
+export default function SectionWorkShop() {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,11 +17,11 @@ export default function SectionMusic() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // Gọi API lấy danh sách sự kiện theo danh mục "CA NHẠC"
-        const res = await eventApi.getEventsByCategory('ca-nhac');
-        setEvents(res.events || []); // backend trả { events: [...] }
+        // Gọi API lấy danh mục WORKSHOP
+        const res = await eventApi.getEventsByCategory('work-shop');
+        setEvents(res.events || []);
       } catch (error) {
-        console.error('Lỗi khi tải sự kiện CA NHẠC:', error);
+        console.error('Lỗi khi tải sự kiện WORKSHOP:', error);
       } finally {
         setLoading(false);
       }
@@ -36,7 +36,7 @@ export default function SectionMusic() {
 
   return (
     <section className="section">
-      <SectionTitle title="CA NHẠC" />
+      <SectionTitle title="WORKSHOP" />
       <div className="event-grid">
         {events.length === 0 ? (
           <p style={{ color: '#fff', padding: '16px' }}>Chưa có sự kiện nào</p>
@@ -52,7 +52,7 @@ export default function SectionMusic() {
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,
               }}
-              onView={() => navigate(`/music/${ev._id}`)}
+              onView={() => navigate(`/workshop/${ev._id}`)}
             />
           ))
         )}

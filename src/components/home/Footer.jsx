@@ -20,8 +20,8 @@ export default function Footer() {
           <h4>Liên Hệ Hợp Tác</h4>
           <p>Điện thoại: 0243.788.00.99 (8:30 - 17:00)</p>
           <p>Hotline: 08.999.80.818</p>
-          <p>Email: <a href="mailto:chamsockhachhang@ticketgo.vn">chamsockhachhang@ticketgo.vn</a></p>
-          <p>Địa chỉ: Số 1, Phạm Văn Bạch, phường Yên Hòa, quận Cầu Giấy, Hà Nội.</p>
+          <p>Email: <a href="mailto:chamsockhachhang@nftticket.vn">chamsockhachhang@nftticket.vn</a></p>
+          <p>Địa chỉ: Số 22, ngõ 16 Cổ Nhuế, Bắc Từ Liêm, Hà Nội.</p>
           <p>Ứng dụng LuxGo</p>
           <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="app-store" />
         </div>
@@ -82,7 +82,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>
-          Bạn đang truy cập LuxGo phiên bản demo — Clone TicketGo.vn (2025)
+          Bạn đang truy cập LuxGo phiên bản demo — Clone NftTicket.vn (2025)
         </p>
       </div>
     </footer>

@@ -13,9 +13,9 @@ import HeroCarousel from '../components/home/HeroCarousel';
 import NavCategories from '../components/home/NavCategories';
 import SectionCulture from '../components/home/SectionCulture';
 import SectionHighlight from '../components/home/SectionHighlight';
-import SectionMusic from '../components/home/SectionMusic';
 import SectionOther from '../components/home/SectionOther';
 import SectionTravel from '../components/home/SectionTravel';
+import SectionMusic from '../components/home/SectionWorkShop';
 import { fetchCultureEvents } from '../services/cultureApi';
 import { fetchHighlightEvents } from '../services/highlightApi';
 import { fetchMusicEvents } from '../services/musicApi';
@@ -68,9 +68,11 @@ export default function Home() {
       <NavCategories />
       <HeroCarousel slides={slides} />
       <SectionHighlight events={highlight} />
-      <SectionMusic events={music} />
+
       <SectionCulture events={culture} />
       <SectionTravel events={travel} />
+
+      <SectionMusic events={music} />
       <SectionOther events={other} />
 
       <Footer />

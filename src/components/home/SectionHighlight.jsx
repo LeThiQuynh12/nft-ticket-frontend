@@ -36,7 +36,7 @@ export default function SectionHighlight() {
 
   return (
     <section className="highlight-section">
-      <SectionTitle title="SỰ KIỆN NỔI BẬT" />
+      <SectionTitle title="CA NHẠC" />
       <div className="highlight-grid">
         {events.slice(0, 4).map((ev) => {
           const d = new Date(ev.startAt);

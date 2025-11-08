@@ -44,18 +44,6 @@ export default function CreateEvent() {
     ticketTypes: [],
     privacy: "public",
     confirmationMessage: "",
-    paymentInfo: {
-      accountName: "",
-      accountNumber: "",
-      bankName: "",
-      branch: "",
-      invoice: {
-        businessType: "Cá nhân",
-        fullName: "",
-        address: "",
-        taxCode: "",
-      },
-    },
   });
 
   // errors state structured as { step: { field: 'message', nested: {}} }
@@ -155,14 +143,6 @@ export default function CreateEvent() {
       s3.confirmationMessage = "Nhập tin nhắn xác nhận";
     if (Object.keys(s3).length) e[3] = s3;
 
-    // Step 4 validations
-    const s4 = {};
-    const p = formData.paymentInfo || {};
-    if (!p.accountName?.trim()) s4.accountName = "Tên chủ tài khoản bắt buộc";
-    if (!p.accountNumber?.trim()) s4.accountNumber = "Số tài khoản bắt buộc";
-    if (!p.bankName) s4.bankName = "Chọn ngân hàng";
-    if (Object.keys(s4).length) e[4] = s4;
-
     setErrors(e);
     return e;
   };
@@ -237,7 +217,6 @@ export default function CreateEvent() {
       });
 
       fd.append("ticketTypes", JSON.stringify(formData.ticketTypes || []));
-      fd.append("paymentInfo", JSON.stringify(formData.paymentInfo || {}));
 
       // files
       if (formData.coverImage) fd.append("coverImage", formData.coverImage);
@@ -271,18 +250,6 @@ export default function CreateEvent() {
         ticketTypes: [],
         privacy: "public",
         confirmationMessage: "",
-        paymentInfo: {
-          accountName: "",
-          accountNumber: "",
-          bankName: "",
-          branch: "",
-          invoice: {
-            businessType: "Cá nhân",
-            fullName: "",
-            address: "",
-            taxCode: "",
-          },
-        },
       });
       setErrors({});
       setCurrentStep(1);
@@ -386,14 +353,7 @@ export default function CreateEvent() {
                 errors={errors[3] || {}}
               />
             )}
-            {currentStep === 4 && (
-              <EventPaymentTab
-                data={formData}
-                updateData={updateFormData}
-                updateNested={updateNested}
-                errors={errors[4] || {}}
-              />
-            )}
+            {currentStep === 4 && <EventPaymentTab />}
           </div>
         </div>
       </div>

@@ -7,7 +7,6 @@ import {
 
 import Header from '../home/Header';
 import BookingForm from './BookingForm';
-import PaymentMethods from './PaymentMethods';
 import SeatMap from './SeatMap';
 
 export default function TicketBookingPage() {
@@ -30,7 +29,6 @@ export default function TicketBookingPage() {
       <div className="booking-container">
         <div className="left-section">
           <BookingForm />
-          <PaymentMethods />
         </div>
 
         <div className="right-section">

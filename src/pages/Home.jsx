@@ -40,7 +40,7 @@ export default function Home() {
   const slides = [
     {
       image:
-        "https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/536283232_646182108510499_6619794025031494311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=ZA1i1MqUQV8Q7kNvwHgewX9&_nc_oc=AdkOVgD1vfOoh-LLMDJ36PjN3O_LXP60uG3BP7ZdQZQ1DPlowhiDuvE8g2iQixFgz2UU2sIZTBMMK67UDPfSLeHj&_nc_zt=23&_nc_ht=scontent.fhan2-4.fna&_nc_gid=cTUlbdplp5n3NByhzDwKpw&oh=00_Afe9oOsGOLvm7o-6X8SL28iNUKj13p0CQlxoWG8PAtdKyw&oe=6902AA39",
+        "https://ticketgo.vn/photos/2/5ffbf7a1efda5.jpg",
       title: "Vé hot tuần này",
     },
     {
@@ -57,7 +57,7 @@ export default function Home() {
     },
     {
       image:
-        "https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/536283232_646182108510499_6619794025031494311_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=ZA1i1MqUQV8Q7kNvwHgewX9&_nc_oc=AdkOVgD1vfOoh-LLMDJ36PjN3O_LXP60uG3BP7ZdQZQ1DPlowhiDuvE8g2iQixFgz2UU2sIZTBMMK67UDPfSLeHj&_nc_zt=23&_nc_ht=scontent.fhan2-4.fna&_nc_gid=cTUlbdplp5n3NByhzDwKpw&oh=00_Afe9oOsGOLvm7o-6X8SL28iNUKj13p0CQlxoWG8PAtdKyw&oe=6902AA39",
+        "https://ticketgo.vn/photos/2/5ffbf7a1efda5.jpg",
       title: "Vé hot tuần này",
     },
   ];

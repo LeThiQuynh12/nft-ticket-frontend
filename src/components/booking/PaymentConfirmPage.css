@@ -1,0 +1,53 @@
+.payment-confirm {
+  min-height: 100vh;
+  background: #fafafa;
+  padding-top: 80px;
+  text-align: center;
+}
+
+.container-payment-confirm {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.order-box p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.qr-box {
+  margin: 20px 0;
+}
+
+.qr-box img {
+  width: 200px;
+  height: 200px;
+}
+
+.btn-pay {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.order-box{
+    text-align: left;
+    margin: 20px 0;
+    color: black
+}
+.btn-back {
+  background: #938989;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}

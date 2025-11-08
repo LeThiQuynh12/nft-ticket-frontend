@@ -1,20 +1,29 @@
+// src/pages/TicketBookingPage.jsx
 import './TicketBookingPage.css';
 
-import { useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import {
   Link,
   useLocation,
   useNavigate,
+  useParams,
 } from 'react-router-dom';
 
+import eventApi from '../../api/eventApi';
 import orderApi from '../../api/orderApi';
 import Header from '../home/Header';
 
 export default function TicketBookingPage() {
   const { state } = useLocation();
+  const { id } = useParams(); // lấy eventId từ URL nếu state không có
   const navigate = useNavigate();
-  const event = state?.event;
+
+  const [event, setEvent] = useState(state?.event || null);
+  const [loadingEvent, setLoadingEvent] = useState(false);
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedZones, setSelectedZones] = useState({});
@@ -27,6 +36,20 @@ export default function TicketBookingPage() {
   });
   const [loading, setLoading] = useState(false);
 
+  // Nếu chưa có event, fetch theo id
+  useEffect(() => {
+    if (!event && id) {
+      setLoadingEvent(true);
+      eventApi.getEventById(id)
+        .then(res => {
+          if (res.event) setEvent(res.event);
+        })
+        .catch(err => console.error('Lỗi fetch event:', err))
+        .finally(() => setLoadingEvent(false));
+    }
+  }, [id, event]);
+
+  if (loadingEvent) return <p>Đang tải dữ liệu sự kiện...</p>;
   if (!event) {
     return (
       <div className="booking-page">
@@ -71,9 +94,12 @@ export default function TicketBookingPage() {
       return alert('Vui lòng nhập đầy đủ thông tin khách hàng!');
 
     const orderPayload = {
-      orderId: Date.now().toString(),
-      eventId: event._id,
-      tickets: selectedSeats,
+      eventId: event._id || id, // fallback nếu _id chưa có
+      tickets: selectedSeats.map(item => ({
+        ticketType: item.ticketType,
+        zone: item.zone,
+        seat: item.seat,
+      })),
       description: `Thanh toán ${event.title}`,
       buyerName: customer.name,
       buyerPhone: customer.phone,
@@ -85,10 +111,10 @@ export default function TicketBookingPage() {
       const res = await orderApi.createOrder(orderPayload);
       console.log('Order created:', res);
 
-      if (res.order?.paymentUrl) {
-        window.location.href = res.order.paymentUrl;
+      if (res.success && res.order) {
+        navigate('/payment-confirm', { state: { order: res.order } });
       } else {
-        alert('Không lấy được link thanh toán!');
+        alert('Không tạo được đơn hàng!');
       }
     } catch (err) {
       console.error(err);
@@ -96,6 +122,7 @@ export default function TicketBookingPage() {
     } finally {
       setLoading(false);
     }
+    console.log('Order Payload:', orderPayload);
   };
 
   return (
@@ -107,36 +134,13 @@ export default function TicketBookingPage() {
           <div className="booking-form">
             <h3>THÔNG TIN KHÁCH HÀNG / CUSTOMER INFORMATION</h3>
             <label>Họ tên / Fullname:</label>
-            <input
-              type="text"
-              name="name"
-              value={customer.name}
-              onChange={handleCustomerChange}
-            />
-
+            <input type="text" name="name" value={customer.name} onChange={handleCustomerChange} />
             <label>Điện thoại / Phone:</label>
-            <input
-              type="text"
-              name="phone"
-              value={customer.phone}
-              onChange={handleCustomerChange}
-            />
-
+            <input type="text" name="phone" value={customer.phone} onChange={handleCustomerChange} />
             <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={customer.email}
-              onChange={handleCustomerChange}
-            />
-
+            <input type="email" name="email" value={customer.email} onChange={handleCustomerChange} />
             <label>Địa chỉ / Address:</label>
-            <input
-              type="text"
-              name="address"
-              value={customer.address}
-              onChange={handleCustomerChange}
-            />
+            <input type="text" name="address" value={customer.address} onChange={handleCustomerChange} />
           </div>
         </div>
 
@@ -147,27 +151,16 @@ export default function TicketBookingPage() {
           <p>
             <strong>Địa điểm:</strong>{' '}
             {event.locationFull ||
-              `${event.location?.name || ''}, ${
-                event.location?.addressDetail || ''
-              }, ${event.location?.ward || ''}, ${
-                event.location?.district || ''
-              }, ${event.location?.province || ''}`}
+              `${event.location?.name || ''}, ${event.location?.addressDetail || ''}, ${event.location?.ward || ''}, ${event.location?.district || ''}, ${event.location?.province || ''}`}
           </p>
 
           <p>
             <strong>Ngày tổ chức:</strong>{' '}
-            {event.startAt
-              ? new Date(event.startAt).toLocaleDateString('vi-VN')
-              : 'Chưa cập nhật'}{' '}
-            –{' '}
-            {event.endAt
-              ? new Date(event.endAt).toLocaleDateString('vi-VN')
-              : ''}
+            {event.startAt ? new Date(event.startAt).toLocaleDateString('vi-VN') : 'Chưa cập nhật'} –{' '}
+            {event.endAt ? new Date(event.endAt).toLocaleDateString('vi-VN') : ''}
           </p>
 
-          {event.seatMap && (
-            <img src={event.seatMap} alt="Sơ đồ ghế" className="seatmap-img" />
-          )}
+          {event.seatMap && <img src={event.seatMap} alt="Sơ đồ ghế" className="seatmap-img" />}
 
           <h3>🪑 CHỌN VỊ TRÍ CHỖ NGỒI / CHOOSE YOUR SEAT POSITION</h3>
 
@@ -190,15 +183,11 @@ export default function TicketBookingPage() {
                   <td>
                     <select
                       value={selectedZones[i] || ''}
-                      onChange={(e) =>
-                        setSelectedZones({ ...selectedZones, [i]: e.target.value })
-                      }
+                      onChange={(e) => setSelectedZones({ ...selectedZones, [i]: e.target.value })}
                     >
                       <option value="">-- Chọn khu --</option>
                       {ticket.zones.map((z, idx) => (
-                        <option key={idx} value={z}>
-                          {z}
-                        </option>
+                        <option key={idx} value={z}>{z}</option>
                       ))}
                     </select>
                   </td>
@@ -206,18 +195,11 @@ export default function TicketBookingPage() {
                   <td>
                     <select
                       value={selectedSeatNums[i] || ''}
-                      onChange={(e) =>
-                        setSelectedSeatNums({
-                          ...selectedSeatNums,
-                          [i]: e.target.value,
-                        })
-                      }
+                      onChange={(e) => setSelectedSeatNums({ ...selectedSeatNums, [i]: e.target.value })}
                     >
                       <option value="">-- Chọn ghế --</option>
                       {ticket.seats.map((s, idx) => (
-                        <option key={idx} value={s}>
-                          {s}
-                        </option>
+                        <option key={idx} value={s}>{s}</option>
                       ))}
                     </select>
                   </td>
@@ -225,14 +207,7 @@ export default function TicketBookingPage() {
                   <td>
                     <button
                       className="add-btn"
-                      onClick={() =>
-                        handleSeatAdd(
-                          ticket.type,
-                          ticket.price,
-                          selectedZones[i],
-                          selectedSeatNums[i]
-                        )
-                      }
+                      onClick={() => handleSeatAdd(ticket.type, ticket.price, selectedZones[i], selectedSeatNums[i])}
                     >
                       + Thêm
                     </button>
@@ -248,8 +223,7 @@ export default function TicketBookingPage() {
               <ul>
                 {selectedSeats.map((item, i) => (
                   <li key={i}>
-                    {item.ticketType} — {item.zone} / {item.seat} —{' '}
-                    {item.price.toLocaleString()} VND
+                    {item.ticketType} — {item.zone} / {item.seat} — {item.price.toLocaleString()} VND
                   </li>
                 ))}
               </ul>
@@ -265,15 +239,10 @@ export default function TicketBookingPage() {
             </div>
 
             <div className="agreement">
-              <input type="checkbox" /> Tôi đồng ý với{' '}
-              <a href="#">Điều khoản & Chính sách</a>
+              <input type="checkbox" /> Tôi đồng ý với <a href="#">Điều khoản & Chính sách</a>
             </div>
 
-            <button
-              className="btn-continue"
-              disabled={loading}
-              onClick={handleCheckout}
-            >
+            <button className="btn-continue" disabled={loading} onClick={handleCheckout}>
               {loading ? 'Đang tạo đơn...' : 'Tiếp tục thanh toán'}
             </button>
           </div>

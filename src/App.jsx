@@ -12,6 +12,8 @@ import AdminReports from './admin/pages/AdminReports';
 import AdminTickets from './admin/pages/AdminTickets';
 import AdminUsers from './admin/pages/AdminUsers';
 import CreateEvent from './admin/pages/CreateEvent';
+import PaymentConfirmPage from './components/booking/PaymentConfirmPage';
+import PaymentSuccessPage from './components/booking/PaymentSuccessPage';
 import TicketBookingPage from './components/booking/TicketBookingPage';
 import ArtDetail from './components/detail/ArtDetail';
 import MovieDetail from './components/detail/MovieDetail';
@@ -33,6 +35,8 @@ import TravelPage from './pages/TravelPage';
 import WorkshopPage from './pages/WorkshopPage';
 // --- Import phần admin ---
 import ProtectedRoute from './routes/ProtectedRoute';
+
+PaymentSuccessPage
 
 function App() {
   return (
@@ -64,7 +68,9 @@ function App() {
         <Route path="/sport" element={<SportPage />} />
         <Route path="/sport/:id" element={<SportDetail />} />
 
-        <Route path="/booking" element={<TicketBookingPage />} />
+        <Route path="/booking/:id" element={<TicketBookingPage />} />
+        <Route path="/payment-confirm" element={<PaymentConfirmPage />} />
+<Route path="/payment-success" element={<PaymentSuccessPage />} />
 
         {/* ==================== PHẦN ADMIN ==================== */}
         <Route

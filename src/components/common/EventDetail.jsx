@@ -60,7 +60,9 @@ export default function EventDetail({ event, category }) {
     return () => clearInterval(timer);
   }, [event.gallery]);
 
-  const handleBuyNow = () => navigate("/booking", { state: { event } });
+const handleBuyNow = () => 
+  navigate(`/booking/${event.id}`, { state: { event } });
+
 
   return (
     <div className="detail-container">

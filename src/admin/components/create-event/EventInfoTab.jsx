@@ -175,7 +175,7 @@ export default function EventInfoTab({ data, updateData, updateNested, errors })
 
       <div className="form-section">
         <label>Mô tả *</label>
-        <textarea rows={6} value={data.description || ''} onChange={e => updateData({ description: e.target.value })} />
+        <textarea rows={15} value={data.description || ''} onChange={e => updateData({ description: e.target.value })} />
         {errors.description && <div className="input-error">{errors.description}</div>}
       </div>
 

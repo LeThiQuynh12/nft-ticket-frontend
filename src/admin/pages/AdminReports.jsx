@@ -30,10 +30,10 @@ import AdminHeader from '../components/AdminHeader';
 import AdminSidebar from '../components/AdminSidebar';
 
 const MOCK_STATS = {
-  revenue: 12500000,
-  growth: 12.5, // tăng trưởng so với kỳ trước (%)
-  totalTickets: 320,
-  totalOrders: 180,
+  revenue: 200000,
+  growth: 2.5, // tăng trưởng so với kỳ trước (%)
+  totalTickets: 12,
+  totalOrders: 12,
   events: [
     { name: 'Tech Conf', revenue: 4500000, tickets: 120 },
     { name: 'Music Fest', revenue: 3000000, tickets: 80 },
@@ -189,28 +189,7 @@ export default function AdminReports() {
             </div>
           </div>
 
-          {/* Bảng chi tiết */}
-          <div className="report-table-section">
-            <h3>Chi tiết sự kiện</h3>
-            <table className="categories-table">
-              <thead>
-                <tr>
-                  <th>Tên sự kiện</th>
-                  <th>Doanh thu</th>
-                  <th>Số vé bán</th>
-                </tr>
-              </thead>
-              <tbody>
-                {topEvents.map((e, i) => (
-                  <tr key={i}>
-                    <td>{e.name}</td>
-                    <td>{formatCurrency(e.revenue)}</td>
-                    <td>{e.tickets}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      
         </div>
       </div>
     </div>

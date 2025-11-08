@@ -4,7 +4,6 @@ import '../styles/admin.css';
 import {
   FaCalendarAlt,
   FaChartLine,
-  FaStar,
   FaTicketAlt,
 } from 'react-icons/fa';
 import {
@@ -65,7 +64,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <h3>Vé đã bán</h3>
-                <p>1,250</p>
+                <p>12</p>
               </div>
             </div>
 
@@ -75,7 +74,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <h3>Doanh thu tháng này</h3>
-                <p>85.400.000đ</p>
+                <p>200.000đ</p>
               </div>
             </div>
           </div>
@@ -103,20 +102,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Sự kiện nổi bật */}
-          <div className="top-event-section">
-            <h3 className="chart-title">Sự kiện nổi bật nhất</h3>
-            <div className="card top-event-card">
-              <div className="event-icon">
-                <FaStar />
-              </div>
-              <div>
-                <h4>Hòa nhạc EDM 2025</h4>
-                <p>Đã bán: <span>820 vé</span></p>
-                <p>Doanh thu: <span>62.000.000đ</span></p>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>

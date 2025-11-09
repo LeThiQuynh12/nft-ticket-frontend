@@ -51,3 +51,12 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.btn-back-success {
+  background: #13b73f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}

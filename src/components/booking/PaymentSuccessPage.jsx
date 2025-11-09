@@ -18,8 +18,9 @@ export default function PaymentSuccessPage() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Lấy orderId từ query string (khác với orderCode của PayOS)
-  const orderId = searchParams.get('orderId');
+  // Lấy orderId từ query param `orderId` hoặc `id` (MongoDB _id)
+  const orderId = searchParams.get('orderCode');
+
 
   useEffect(() => {
     if (!orderId) {
@@ -30,8 +31,13 @@ export default function PaymentSuccessPage() {
     const fetchOrder = async () => {
       try {
         setLoading(true);
-        const res = await orderApi.getOrderStatus(orderId); // gọi đúng orderId
-        if (res.success) setOrder(res.order);
+        // gọi API backend lấy thông tin order
+        const res = await orderApi.getOrderStatus(orderId);
+        if (res.success) {
+          setOrder(res.order);
+        } else {
+          console.warn('Order not found for', orderId);
+        }
       } catch (err) {
         console.error('getOrderStatus error:', err);
       } finally {
@@ -48,17 +54,21 @@ export default function PaymentSuccessPage() {
     return (
       <div>
         <Header />
-        <p>Không tìm thấy đơn hàng!</p>
-        <button onClick={() => navigate('/')}>Về trang chủ</button>
+        <div className="=container-payment-confirm">
+          <p>Không tìm thấy đơn hàng!</p>
+          <button onClick={() => navigate('/')}>Về trang chủ</button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="payment-confirm">
-      <Header />
-      <div className="container">
-        <h2>Cảm ơn bạn đã đặt vé!</h2>
+<div>
+  <Header/>
+      <div className="payment-confirm">
+
+      <div className="container-payment-confirm">
+        <h2 style={{color: "#000"}}>Cảm ơn bạn đã đặt vé!</h2>
 
         <div className="order-box">
           <p><strong>Mã đơn hàng:</strong> {order.orderId}</p>
@@ -68,12 +78,22 @@ export default function PaymentSuccessPage() {
           <p><strong>Sự kiện:</strong> {order.eventId}</p>
           <p><strong>Tổng tiền:</strong> {order.totalAmount.toLocaleString()} VND</p>
           <p><strong>Trạng thái:</strong> {order.status}</p>
+
+          {order.paymentUrl && (
+            <p>
+              <strong>Link thanh toán:</strong>{' '}
+              <a href={order.paymentUrl} target="_blank" rel="noopener noreferrer">
+                Mở PayOS
+              </a>
+            </p>
+          )}
         </div>
 
-        <button className="btn-back" onClick={() => navigate('/')}>
+        <button className="btn-back-success" onClick={() => navigate('/')}>
           ← Quay lại trang chủ
         </button>
       </div>
     </div>
+</div>
   );
 }

@@ -55,6 +55,8 @@
   border: 1.3px solid #d0d7e2;
   border-radius: 8px;
   font-size: 14px;
+    background-color: #fff; /* nền trắng */
+  color: #000; /* chữ đen */
   transition: all 0.3s ease;
 }
 

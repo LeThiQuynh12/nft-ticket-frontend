@@ -1,4 +1,3 @@
-// src/pages/WorkshopPage.jsx
 import React, {
   useEffect,
   useState,
@@ -12,10 +11,12 @@ export default function WorkshopPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // ✅ Gọi API theo slug `workshop`
+        // ✅ Gọi API theo slug `work-shop`
         const res = await eventApi.getEventsByCategory("work-shop");
         const data = res.events || res;
 
@@ -23,7 +24,7 @@ export default function WorkshopPage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `http://localhost:5003${ev.coverImage}`,
+            banner: `${API_PUBLIC}${ev.coverImage}`,
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,

@@ -1,4 +1,3 @@
-// src/pages/ArtDetail.jsx
 import React, {
   useEffect,
   useState,
@@ -15,10 +14,14 @@ export default function ArtDetail() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
+
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        // ✅ gọi API theo category văn hóa nghệ thuật
+        // gọi API theo category văn hóa nghệ thuật
         const res = await eventApi.getEventsByCategory("van-hoa-nghe-thuat");
         const data = res.events || res;
 
@@ -27,7 +30,7 @@ export default function ArtDetail() {
           setEvent({
             id: found._id,
             title: found.name,
-            banner: `http://localhost:5003${found.coverImage}`,
+            banner: `${API_PUBLIC}${found.coverImage}`,
             description: found.description,
 
             startAt: found.startAt,
@@ -42,12 +45,12 @@ export default function ArtDetail() {
             }, ${found.location?.province || ""}`,
 
             seatMap: found.seatMapUrl
-              ? `http://localhost:5003${found.seatMapUrl}`
+              ? `${API_PUBLIC}${found.seatMapUrl}`
               : null,
 
             organizer: found.organizer,
             organizerLogo: found.organizerLogo
-              ? `http://localhost:5003${found.organizerLogo}`
+              ? `${API_PUBLIC}${found.organizerLogo}`
               : null,
 
             ticketInfo:
@@ -57,7 +60,7 @@ export default function ArtDetail() {
               })) || [],
 
             gallery:
-              found.gallery?.map((g) => `http://localhost:5003${g}`) || [],
+              found.gallery?.map((g) => `${API_PUBLIC}${g}`) || [],
 
             views: found.views || 0,
 

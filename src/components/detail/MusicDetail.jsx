@@ -1,4 +1,3 @@
-// src/pages/MusicDetail.jsx
 import React, {
   useEffect,
   useState,
@@ -15,26 +14,31 @@ export default function MusicDetail() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Lấy base URL từ file .env
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchDetail = async () => {
       try {
+        // ✅ Gọi API sự kiện theo category: ca nhạc
         const res = await eventApi.getEventsByCategory("ca-nhac");
         const data = res.events || res;
         const found = data.find((ev) => ev._id === id);
+
         if (found) {
           setEvent({
             id: found._id,
             title: found.name,
-            banner: `http://localhost:5003${found.coverImage}`,
+            banner: `${API_PUBLIC}${found.coverImage}`,
             description: found.description,
 
-            // ✅ thời gian đầy đủ
+            // thời gian
             startAt: found.startAt,
             endAt: found.endAt,
             saleStartAt: found.saleStartAt,
             saleEndAt: found.saleEndAt,
 
-            // ✅ địa điểm
+            // địa điểm
             locationFull: `${found.location?.name || ""}, ${
               found.location?.addressDetail || ""
             }, ${found.location?.ward || ""}, ${
@@ -42,12 +46,12 @@ export default function MusicDetail() {
             }, ${found.location?.province || ""}`,
 
             seatMap: found.seatMapUrl
-              ? `http://localhost:5003${found.seatMapUrl}`
+              ? `${API_PUBLIC}${found.seatMapUrl}`
               : null,
 
             organizer: found.organizer,
             organizerLogo: found.organizerLogo
-              ? `http://localhost:5003${found.organizerLogo}`
+              ? `${API_PUBLIC}${found.organizerLogo}`
               : null,
 
             ticketInfo:
@@ -57,7 +61,7 @@ export default function MusicDetail() {
               })) || [],
 
             gallery:
-              found.gallery?.map((g) => `http://localhost:5003${g}`) || [],
+              found.gallery?.map((g) => `${API_PUBLIC}${g}`) || [],
 
             views: found.views || 0,
 
@@ -71,6 +75,7 @@ export default function MusicDetail() {
         setLoading(false);
       }
     };
+
     fetchDetail();
   }, [id]);
 
@@ -80,7 +85,6 @@ export default function MusicDetail() {
   return (
     <div className="detail-page">
       <Header />
-
       <EventDetail event={event} category="music" />
     </div>
   );

@@ -14,14 +14,16 @@ export default function SectionTravel() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // Gọi API lấy danh sách sự kiện theo danh mục "THAM QUAN"
+        // Gọi API lấy danh sách sự kiện theo danh mục "DU LỊCH"
         const res = await eventApi.getEventsByCategory('du-lich');
         setEvents(res.events || []);
       } catch (error) {
-        console.error('Lỗi khi tải sự kiện THAM QUAN:', error);
+        console.error('Lỗi khi tải sự kiện DU LỊCH:', error);
       } finally {
         setLoading(false);
       }
@@ -47,7 +49,7 @@ export default function SectionTravel() {
               ev={{
                 id: ev._id,
                 title: ev.name,
-                banner: `http://localhost:5003${ev.coverImage}`,
+                banner: `${API_PUBLIC}${ev.coverImage}`,
                 date: ev.startAt,
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,

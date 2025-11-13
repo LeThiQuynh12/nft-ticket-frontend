@@ -11,10 +11,11 @@ export default function MoviePage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchMovieEvents = async () => {
       try {
-       
         const res = await eventApi.getEventsByCategory("ve-xem-phim");
         const data = res.events || res;
 
@@ -22,7 +23,7 @@ export default function MoviePage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `http://localhost:5003${ev.coverImage}`,
+            banner: `${API_PUBLIC}${ev.coverImage}`,
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,
@@ -48,7 +49,7 @@ export default function MoviePage() {
       <Header />
       <EventList 
         title="VÉ XEM PHIM"
-        fetchEvents={() => Promise.resolve(events)} // ✅ trả dữ liệu đã fetch
+        fetchEvents={() => Promise.resolve(events)}
         category="movie"
       />
     </div>

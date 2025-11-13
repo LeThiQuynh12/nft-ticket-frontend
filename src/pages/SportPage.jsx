@@ -11,10 +11,11 @@ export default function SportPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchSportEvents = async () => {
       try {
-        // 🔥 Gọi API theo slug “the-thao”
         const res = await eventApi.getEventsByCategory("the-thao");
         const data = res.events || res;
 
@@ -22,7 +23,7 @@ export default function SportPage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `http://localhost:5003${ev.coverImage}`,
+            banner: `${API_PUBLIC}${ev.coverImage}`,
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,
@@ -48,7 +49,7 @@ export default function SportPage() {
       <Header />
       <EventList 
         title="THỂ THAO"
-        fetchEvents={() => Promise.resolve(events)} // ✅ trả data đã fetch
+        fetchEvents={() => Promise.resolve(events)}
         category="sport"
       />
     </div>

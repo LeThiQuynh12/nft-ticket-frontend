@@ -1,4 +1,3 @@
-// src/pages/TourPage.jsx
 import React, {
   useEffect,
   useState,
@@ -12,6 +11,8 @@ export default function TourPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -22,7 +23,7 @@ export default function TourPage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `http://localhost:5003${ev.coverImage}`,
+            banner: `${API_PUBLIC}${ev.coverImage}`,
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,
@@ -48,7 +49,7 @@ export default function TourPage() {
       <Header />
       <EventList 
         title="VÉ THAM QUAN"
-        fetchEvents={() => Promise.resolve(events)} 
+        fetchEvents={() => Promise.resolve(events)}
         category="tour"
       />
     </div>

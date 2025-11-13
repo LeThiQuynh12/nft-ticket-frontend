@@ -14,6 +14,8 @@ export default function SectionWorkShop() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -47,7 +49,7 @@ export default function SectionWorkShop() {
               ev={{
                 id: ev._id,
                 title: ev.name,
-                banner: `http://localhost:5003${ev.coverImage}`,
+                banner: `${API_PUBLIC}${ev.coverImage}`,
                 date: ev.startAt,
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,

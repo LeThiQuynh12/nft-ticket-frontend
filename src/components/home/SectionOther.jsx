@@ -14,8 +14,10 @@ export default function SectionOther() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   // Slug các danh mục đã liệt kê
-  const excludedCategories = ['ca-nhac', 'du-lich', 'van-hoa-nghe-thuat','work-shop'];
+  const excludedCategories = ['ca-nhac', 'du-lich', 'van-hoa-nghe-thuat', 'work-shop'];
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -24,7 +26,7 @@ export default function SectionOther() {
         const res = await eventApi.getEvents();
         const allEvents = res.data?.events || res.events || [];
 
-        // Lọc ra sự kiện không thuộc 3 category trên
+        // Lọc ra sự kiện không thuộc các category trên
         const filtered = allEvents.filter(
           (ev) => !excludedCategories.includes(ev?.category?.slug)
         );
@@ -57,7 +59,7 @@ export default function SectionOther() {
               ev={{
                 id: ev._id,
                 title: ev.name,
-                banner: `http://localhost:5003${ev.coverImage}`,
+                banner: `${API_PUBLIC}${ev.coverImage}`,
                 date: ev.startAt,
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,

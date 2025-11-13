@@ -1,4 +1,3 @@
-// src/pages/TravelDetail.jsx
 import React, {
   useEffect,
   useState,
@@ -15,10 +14,13 @@ export default function TravelDetail() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Lấy base URL từ file .env
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        // ✅ gọi API theo category du lịch
+        // ✅ Gọi API theo category du lịch
         const res = await eventApi.getEventsByCategory("du-lich");
         const data = res.events || res;
 
@@ -27,7 +29,7 @@ export default function TravelDetail() {
           setEvent({
             id: found._id,
             title: found.name,
-            banner: `http://localhost:5003${found.coverImage}`,
+            banner: `${API_PUBLIC}${found.coverImage}`,
             description: found.description,
 
             // thời gian
@@ -44,12 +46,12 @@ export default function TravelDetail() {
             }, ${found.location?.province || ""}`,
 
             seatMap: found.seatMapUrl
-              ? `http://localhost:5003${found.seatMapUrl}`
+              ? `${API_PUBLIC}${found.seatMapUrl}`
               : null,
 
             organizer: found.organizer,
             organizerLogo: found.organizerLogo
-              ? `http://localhost:5003${found.organizerLogo}`
+              ? `${API_PUBLIC}${found.organizerLogo}`
               : null,
 
             ticketInfo:
@@ -59,7 +61,7 @@ export default function TravelDetail() {
               })) || [],
 
             gallery:
-              found.gallery?.map((g) => `http://localhost:5003${g}`) || [],
+              found.gallery?.map((g) => `${API_PUBLIC}${g}`) || [],
 
             views: found.views || 0,
 

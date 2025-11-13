@@ -1,4 +1,3 @@
-// src/pages/MusicPage.jsx
 import React, {
   useEffect,
   useState,
@@ -12,18 +11,18 @@ export default function MusicPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Gọi API khi trang được load
+  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // 🔥 Gọi API theo danh mục “ca-nhac” (slug trong DB)
         const res = await eventApi.getEventsByCategory("ca-nhac");
-        const data = res.events || res; // tùy backend trả về dạng nào
+        const data = res.events || res;
         setEvents(
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `http://localhost:5003${ev.coverImage}`,
+            banner: `${API_PUBLIC}${ev.coverImage}`,
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,
@@ -48,7 +47,7 @@ export default function MusicPage() {
       <Header />
       <EventList 
         title="CA NHẠC" 
-        fetchEvents={() => Promise.resolve(events)} // ✅ nạp dữ liệu đã fetch sẵn
+        fetchEvents={() => Promise.resolve(events)} 
         category="music" 
       />
     </div>

@@ -10,6 +10,7 @@ import {
   FaTwitter,
   FaYoutube,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom'; // <-- import Link
 
 export default function Footer() {
   return (
@@ -33,7 +34,12 @@ export default function Footer() {
             <li>Về chúng tôi</li>
             <li>Khuyến mãi</li>
             <li>Phương thức thanh toán</li>
-            <li>Chính sách bảo mật và điều khoản</li>
+            <li>
+              {/* Link tới trang chính sách bảo mật */}
+              <Link to="/privacy-policy" className="footer-link">
+                Chính sách bảo mật và điều khoản
+              </Link>
+            </li>
             <li>Hướng dẫn đặt vé</li>
             <li>Các câu hỏi thường gặp</li>
             <li>Chính sách điều khoản sử dụng</li>

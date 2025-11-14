@@ -22,6 +22,7 @@ import SportDetail from './components/detail/SportDetail';
 import TourDetail from './components/detail/TourDetail';
 import TravelDetail from './components/detail/TravelDetail';
 import WorkshopDetail from './components/detail/WorkshopDetail';
+import PrivacyPolicy from './components/home/PrivacyPolicy';
 import ArtPage from './pages/ArtPage';
 // --- Import phần người dùng ---
 import Home from './pages/Home';
@@ -72,6 +73,7 @@ function App() {
         <Route path="/payment-confirm" element={<PaymentConfirmPage />} />
 <Route path="/payment-success" element={<PaymentSuccessPage />} />
 
+<Route path="/privacy-policy" element={<PrivacyPolicy />} />
         {/* ==================== PHẦN ADMIN ==================== */}
         <Route
           path="/admin"

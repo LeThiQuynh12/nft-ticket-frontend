@@ -12,15 +12,15 @@ import {
 import orderApi from '../../api/orderApi';
 import Header from '../home/Header';
 
+const DEFAULT_TX_LINK = "https://amoy.polygonscan.com/tx/0xcfabfaca11921a66edef69fbee2ab514a60de130a81e05102e34f4c1a4e7bd85";
+
 export default function PaymentSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Lấy orderId từ query param `orderId` hoặc `id` (MongoDB _id)
   const orderId = searchParams.get('orderCode');
-
 
   useEffect(() => {
     if (!orderId) {
@@ -31,7 +31,6 @@ export default function PaymentSuccessPage() {
     const fetchOrder = async () => {
       try {
         setLoading(true);
-        // gọi API backend lấy thông tin order
         const res = await orderApi.getOrderStatus(orderId);
         if (res.success) {
           setOrder(res.order);
@@ -54,7 +53,7 @@ export default function PaymentSuccessPage() {
     return (
       <div>
         <Header />
-        <div className="=container-payment-confirm">
+        <div className="container-payment-confirm">
           <p>Không tìm thấy đơn hàng!</p>
           <button onClick={() => navigate('/')}>Về trang chủ</button>
         </div>
@@ -63,37 +62,75 @@ export default function PaymentSuccessPage() {
   }
 
   return (
-<div>
-  <Header/>
+    <div>
+      <Header />
       <div className="payment-confirm">
+        <div className="container-payment-confirm">
+          <h2 style={{color: "#000"}}>Cảm ơn bạn đã đặt vé!</h2>
 
-      <div className="container-payment-confirm">
-        <h2 style={{color: "#000"}}>Cảm ơn bạn đã đặt vé!</h2>
+          <div className="order-box">
+            <p><strong>Mã đơn hàng:</strong> {order.orderId}</p>
+            <p><strong>Khách hàng:</strong> {order.customer.name}</p>
+            <p><strong>Email:</strong> {order.customer.email}</p>
+            <p><strong>Số điện thoại:</strong> {order.customer.phone}</p>
+            <p><strong>Sự kiện:</strong> {order.eventId}</p>
+            <p><strong>Tổng tiền:</strong> {order.totalAmount.toLocaleString()} VND</p>
+            <p><strong>Trạng thái:</strong> {order.status}</p>
 
-        <div className="order-box">
-          <p><strong>Mã đơn hàng:</strong> {order.orderId}</p>
-          <p><strong>Khách hàng:</strong> {order.customer.name}</p>
-          <p><strong>Email:</strong> {order.customer.email}</p>
-          <p><strong>Số điện thoại:</strong> {order.customer.phone}</p>
-          <p><strong>Sự kiện:</strong> {order.eventId}</p>
-          <p><strong>Tổng tiền:</strong> {order.totalAmount.toLocaleString()} VND</p>
-          <p><strong>Trạng thái:</strong> {order.status}</p>
+            {order.paymentUrl && (
+              <p>
+                <strong>Link thanh toán:</strong>{' '}
+                <a href={order.paymentUrl} target="_blank" rel="noopener noreferrer">
+                  Mở PayOS
+                </a>
+              </p>
+            )}
+          </div>
 
-          {order.paymentUrl && (
-            <p>
-              <strong>Link thanh toán:</strong>{' '}
-              <a href={order.paymentUrl} target="_blank" rel="noopener noreferrer">
-                Mở PayOS
-              </a>
-            </p>
+          {/* Hiển thị vé NFT */}
+          {order.nfts && order.nfts.length > 0 && (
+            <div className="nft-list">
+              <h3>Vé NFT của bạn</h3>
+              <table className="categories-table">
+                <thead>
+                  <tr>
+                    <th>Token ID</th>
+                    <th>Loại vé</th>
+                    <th>Metadata (IPFS)</th>
+                    <th>Giao dịch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {order.nfts.map((nft) => (
+                    <tr key={nft._id}>
+                      <td>{nft.tokenId}</td>
+                      <td>{nft.ticketType}</td>
+                      <td>
+                        <a href={nft.metadataURI} target="_blank" rel="noopener noreferrer">
+                          Xem IPFS
+                        </a>
+                      </td>
+                      <td>
+                        <a
+                          href={nft.txLink || DEFAULT_TX_LINK}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Xem giao dịch
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
-        </div>
 
-        <button className="btn-back-success" onClick={() => navigate('/')}>
-          ← Quay lại trang chủ
-        </button>
+          <button className="btn-back-success" onClick={() => navigate('/')}>
+            ← Quay lại trang chủ
+          </button>
+        </div>
       </div>
     </div>
-</div>
   );
 }

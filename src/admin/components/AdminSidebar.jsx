@@ -4,7 +4,6 @@ import {
   FaChartBar,
   FaHome,
   FaListAlt,
-  FaShoppingCart,
   FaTicketAlt,
   FaUsers,
 } from 'react-icons/fa';
@@ -29,9 +28,7 @@ export default function AdminSidebar() {
         <Link to="/admin/events" className={isActive('/admin/events')}>
           <FaCalendarAlt /> Quản lý sự kiện
         </Link>
-        <Link to="/admin/orders" className={isActive('/admin/orders')}>
-          <FaShoppingCart /> Quản lý đơn hàng
-        </Link>
+  
         <Link to="/admin/tickets" className={isActive('/admin/tickets')}>
           <FaTicketAlt /> Quản lý vé
         </Link>

@@ -159,14 +159,14 @@ export default function TicketBookingPage() {
               value={customer.address}
               onChange={handleCustomerChange}
             />
-
+{/* 
             <label>Ví Meta Mask:</label>
             <input
               type="text"
               name="wallet"
               value={customer.email}
               onChange={handleCustomerChange}
-            />
+            /> */}
           </div>
         </div>
 

@@ -29,7 +29,7 @@ export default function MusicDetail() {
           setEvent({
             id: found._id,
             title: found.name,
-            banner: `${API_PUBLIC}${found.coverImage}`,
+banner: found.coverImage,
             description: found.description,
 
             // thời gian
@@ -45,14 +45,10 @@ export default function MusicDetail() {
               found.location?.district || ""
             }, ${found.location?.province || ""}`,
 
-            seatMap: found.seatMapUrl
-              ? `${API_PUBLIC}${found.seatMapUrl}`
-              : null,
+seatMap: found.seatMapUrl || null,
 
             organizer: found.organizer,
-            organizerLogo: found.organizerLogo
-              ? `${API_PUBLIC}${found.organizerLogo}`
-              : null,
+organizerLogo: found.organizerLogo || null,
 
             ticketInfo:
               found.ticketTypes?.map((t) => ({
@@ -60,8 +56,7 @@ export default function MusicDetail() {
                 price: t.price,
               })) || [],
 
-            gallery:
-              found.gallery?.map((g) => `${API_PUBLIC}${g}`) || [],
+gallery: found.gallery || [],
 
             views: found.views || 0,
 

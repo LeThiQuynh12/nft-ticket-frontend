@@ -24,7 +24,8 @@ export default function WorkshopPage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `${API_PUBLIC}${ev.coverImage}`,
+banner: ev.coverImage,
+
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,

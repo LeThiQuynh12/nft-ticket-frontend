@@ -15,8 +15,7 @@ export default function SectionHighlight() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Lấy base URL từ .env
-  const API_PUBLIC = import.meta.env.VITE_API_PUBLIC_URL;
+
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -54,7 +53,7 @@ export default function SectionHighlight() {
             >
               <div className="highlight-image-wrapper">
                 <img
-                  src={`${API_PUBLIC}${ev.coverImage}`}
+             src={ev.coverImage}
                   alt={ev.name}
                   className="highlight-image"
                 />

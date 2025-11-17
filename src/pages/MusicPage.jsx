@@ -22,7 +22,8 @@ export default function MusicPage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `${API_PUBLIC}${ev.coverImage}`,
+            banner: ev.coverImage,
+
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,
@@ -39,16 +40,18 @@ export default function MusicPage() {
   }, []);
 
   if (loading) {
-    return <p style={{ color: "#fff", padding: "16px" }}>Đang tải dữ liệu...</p>;
+    return (
+      <p style={{ color: "#fff", padding: "16px" }}>Đang tải dữ liệu...</p>
+    );
   }
 
   return (
     <div className="page-container">
       <Header />
-      <EventList 
-        title="CA NHẠC" 
-        fetchEvents={() => Promise.resolve(events)} 
-        category="music" 
+      <EventList
+        title="CA NHẠC"
+        fetchEvents={() => Promise.resolve(events)}
+        category="music"
       />
     </div>
   );

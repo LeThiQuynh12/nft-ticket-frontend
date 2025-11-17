@@ -23,7 +23,7 @@ export default function MoviePage() {
           data.map((ev) => ({
             id: ev._id,
             title: ev.name,
-            banner: `${API_PUBLIC}${ev.coverImage}`,
+            banner: ev.coverImage,
             date: ev.startAt,
             location: ev.location?.province || "Chưa rõ",
             price: ev.ticketTypes?.[0]?.price || 0,
@@ -41,13 +41,15 @@ export default function MoviePage() {
   }, []);
 
   if (loading) {
-    return <p style={{ color: "#fff", padding: "16px" }}>Đang tải dữ liệu...</p>;
+    return (
+      <p style={{ color: "#fff", padding: "16px" }}>Đang tải dữ liệu...</p>
+    );
   }
 
   return (
     <div className="page-container">
       <Header />
-      <EventList 
+      <EventList
         title="VÉ XEM PHIM"
         fetchEvents={() => Promise.resolve(events)}
         category="movie"

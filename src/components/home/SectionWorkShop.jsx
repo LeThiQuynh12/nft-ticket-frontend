@@ -49,7 +49,8 @@ export default function SectionWorkShop() {
               ev={{
                 id: ev._id,
                 title: ev.name,
-                banner: `${API_PUBLIC}${ev.coverImage}`,
+banner: ev.coverImage,
+
                 date: ev.startAt,
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,

@@ -21,10 +21,10 @@ export default function SectionCulture() {
     const fetchEvents = async () => {
       try {
         // Gọi API lấy danh sách sự kiện theo danh mục "VĂN HOÁ NGHỆ THUẬT"
-        const res = await eventApi.getEventsByCategory('van-hoa-nghe-thuat');
+        const res = await eventApi.getEventsByCategory("van-hoa-nghe-thuat");
         setEvents(res.events || []);
       } catch (error) {
-        console.error('Lỗi khi tải sự kiện VĂN HOÁ NGHỆ THUẬT:', error);
+        console.error("Lỗi khi tải sự kiện VĂN HOÁ NGHỆ THUẬT:", error);
       } finally {
         setLoading(false);
       }
@@ -34,7 +34,9 @@ export default function SectionCulture() {
   }, []);
 
   if (loading) {
-    return <p style={{ color: '#fff', padding: '16px' }}>Đang tải dữ liệu...</p>;
+    return (
+      <p style={{ color: "#fff", padding: "16px" }}>Đang tải dữ liệu...</p>
+    );
   }
 
   return (
@@ -42,7 +44,7 @@ export default function SectionCulture() {
       <SectionTitle title="VĂN HOÁ NGHỆ THUẬT" />
       <div className="event-grid">
         {events.length === 0 ? (
-          <p style={{ color: '#fff', padding: '16px' }}>Chưa có sự kiện nào</p>
+          <p style={{ color: "#fff", padding: "16px" }}>Chưa có sự kiện nào</p>
         ) : (
           events.map((ev) => (
             <EventCard
@@ -50,7 +52,8 @@ export default function SectionCulture() {
               ev={{
                 id: ev._id,
                 title: ev.name,
-                banner: `${API_PUBLIC}${ev.coverImage}`,
+                banner: ev.coverImage,
+
                 date: ev.startAt,
                 location: ev.location?.province,
                 price: ev.ticketTypes?.[0]?.price,

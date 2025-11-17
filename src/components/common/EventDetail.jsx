@@ -97,15 +97,7 @@ const handleBuyNow = () =>
             </span>
           </div>
 
-          {/* ✅ Sale Time */}
-          <div className="sale-time-box">
-            <p>
-              Bán vé từ: <strong>{saleStart}</strong>
-            </p>
-            <p>
-              Đóng bán: <strong>{saleEnd}</strong>
-            </p>
-          </div>
+
 
           {/* ✅ Description */}
           <div className="description-section">

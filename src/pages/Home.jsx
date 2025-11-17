@@ -40,24 +40,24 @@ export default function Home() {
   const slides = [
     {
       image:
-        "https://ticketgo.vn/photos/2/5ffbf7a1efda5.jpg",
+        "https://salt.tkbcdn.com/ts/ds/2c/f5/7a/d136b1fbc45f03540a23539c86517dd7.png",
       title: "Vé hot tuần này",
     },
     {
-      image: "https://cdn-www.vinid.net/c1b12591-banner-web-1920x1080-1.jpg",
+      image: "https://salt.tkbcdn.com/ts/ds/2e/8a/b4/71e92660facd80bc1344113d1c63e263.jpg",
       title: "Trải nghiệm sự kiện đẳng cấp",
     },
     {
-      image: "https://tttctt.1cdn.vn/2025/07/16/hinh-1-.jpg",
+      image: "https://salt.tkbcdn.com/ts/ds/92/5a/25/9252f67ff027a0e07f467fe6c9a5d8dd.jpeg",
       title: "Khám phá cùng TicketGo",
     },
     {
-      image: "https://ticketgo.vn/photos/2/5ffbf7a1efda5.jpg",
+      image: "https://salt.tkbcdn.com/ts/ds/17/1d/5f/7150cf1cfa52290a9aa47fc657b38ceb.jpeg",
       title: "Khám phá cùng TicketGo",
     },
     {
       image:
-        "https://ticketgo.vn/photos/2/5ffbf7a1efda5.jpg",
+        "https://salt.tkbcdn.com/ts/ds/a4/6f/fb/e9e1a2dcd64cdf480f2c56d1b25c7077.jpeg",
       title: "Vé hot tuần này",
     },
   ];

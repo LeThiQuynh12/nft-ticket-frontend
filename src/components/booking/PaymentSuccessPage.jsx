@@ -12,7 +12,8 @@ import {
 import orderApi from '../../api/orderApi';
 import Header from '../home/Header';
 
-const DEFAULT_TX_LINK = "https://amoy.polygonscan.com/tx/0xcfabfaca11921a66edef69fbee2ab514a60de130a81e05102e34f4c1a4e7bd85";
+const DEFAULT_TX_LINK =
+  "https://amoy.polygonscan.com/tx/0xcfabfaca11921a66edef69fbee2ab514a60de130a81e05102e34f4c1a4e7bd85";
 
 export default function PaymentSuccessPage() {
   const [searchParams] = useSearchParams();
@@ -20,7 +21,7 @@ export default function PaymentSuccessPage() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const orderId = searchParams.get('orderCode');
+  const orderId = searchParams.get("orderCode");
 
   useEffect(() => {
     if (!orderId) {
@@ -35,10 +36,10 @@ export default function PaymentSuccessPage() {
         if (res.success) {
           setOrder(res.order);
         } else {
-          console.warn('Order not found for', orderId);
+          console.warn("Order not found for", orderId);
         }
       } catch (err) {
-        console.error('getOrderStatus error:', err);
+        console.error("getOrderStatus error:", err);
       } finally {
         setLoading(false);
       }
@@ -55,7 +56,7 @@ export default function PaymentSuccessPage() {
         <Header />
         <div className="container-payment-confirm">
           <p>Không tìm thấy đơn hàng!</p>
-          <button onClick={() => navigate('/')}>Về trang chủ</button>
+          <button onClick={() => navigate("/")}>Về trang chủ</button>
         </div>
       </div>
     );
@@ -66,21 +67,40 @@ export default function PaymentSuccessPage() {
       <Header />
       <div className="payment-confirm">
         <div className="container-payment-confirm">
-          <h2 style={{color: "#000"}}>Cảm ơn bạn đã đặt vé!</h2>
+          <h2 style={{ color: "#000" }}>Cảm ơn bạn đã đặt vé ạ!</h2>
 
           <div className="order-box">
-            <p><strong>Mã đơn hàng:</strong> {order.orderId}</p>
-            <p><strong>Khách hàng:</strong> {order.customer.name}</p>
-            <p><strong>Email:</strong> {order.customer.email}</p>
-            <p><strong>Số điện thoại:</strong> {order.customer.phone}</p>
-            <p><strong>Sự kiện:</strong> {order.eventId}</p>
-            <p><strong>Tổng tiền:</strong> {order.totalAmount.toLocaleString()} VND</p>
-            <p><strong>Trạng thái:</strong> {order.status}</p>
+            <p>
+              <strong>Mã đơn hàng:</strong> {order.orderId}
+            </p>
+            <p>
+              <strong>Khách hàng:</strong> {order.customer.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {order.customer.email}
+            </p>
+            <p>
+              <strong>Số điện thoại:</strong> {order.customer.phone}
+            </p>
+            <p>
+              <strong>Sự kiện:</strong> {order.eventId}
+            </p>
+            <p>
+              <strong>Tổng tiền:</strong> {order.totalAmount.toLocaleString()}{" "}
+              VND
+            </p>
+            <p>
+              <strong>Trạng thái:</strong> {order.status}
+            </p>
 
             {order.paymentUrl && (
               <p>
-                <strong>Link thanh toán:</strong>{' '}
-                <a href={order.paymentUrl} target="_blank" rel="noopener noreferrer">
+                <strong>Link thanh toán:</strong>{" "}
+                <a
+                  href={order.paymentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Mở PayOS
                 </a>
               </p>
@@ -106,7 +126,11 @@ export default function PaymentSuccessPage() {
                       <td>{nft.tokenId}</td>
                       <td>{nft.ticketType}</td>
                       <td>
-                        <a href={nft.metadataURI} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={nft.metadataURI}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           Xem IPFS
                         </a>
                       </td>
@@ -126,7 +150,7 @@ export default function PaymentSuccessPage() {
             </div>
           )}
 
-          <button className="btn-back-success" onClick={() => navigate('/')}>
+          <button className="btn-back-success" onClick={() => navigate("/")}>
             ← Quay lại trang chủ
           </button>
         </div>

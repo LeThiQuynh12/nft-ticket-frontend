@@ -24,7 +24,7 @@ export default function AdminEvents() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 📌 Fetch events
+
   const fetchEvents = async () => {
   try {
     setLoading(true);
@@ -45,7 +45,7 @@ export default function AdminEvents() {
     fetchEvents();
   }, []);
 
-  // 🗑️ Delete
+
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc muốn xóa sự kiện này?")) return;
 
@@ -81,79 +81,90 @@ export default function AdminEvents() {
             <p>Đang tải sự kiện...</p>
           ) : (
             <table className="categories-table">
-              <thead>
-                <tr>
-                  <th>Tên sự kiện</th>
-                  <th>Hình thức</th>
-                  <th>Địa điểm</th>
-                  <th>Thời gian</th>
-                  <th>Quyền</th>
-                  <th>Danh mục</th>
-                  <th>Người tạo</th>
-                  <th>Vé</th>
-                  <th>Thanh toán</th>
-                  <th>Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                {events.length === 0 ? (
-                  <tr>
-                    <td colSpan="10" style={{ textAlign: "center" }}>
-                      Không có sự kiện
-                    </td>
-                  </tr>
-                ) : (
-                  events.map((ev) => (
-                    <tr key={ev._id}>
-                      <td>{ev.name}</td>
-                      <td>{ev.mode === "online" ? "Online" : "Offline"}</td>
-                      <td>
-                        {ev?.location
-                          ? `${ev.location.name}, ${ev.location.ward}, ${ev.location.district}, ${ev.location.province} - ${ev.location.addressDetail}`
-                          : "—"}
-                      </td>
-                      <td>
-                        {ev.startAt
-                          ? new Date(ev.startAt).toLocaleDateString()
-                          : ""}
-                        {" → "}
-                        {ev.endAt
-                          ? new Date(ev.endAt).toLocaleDateString()
-                          : ""}
-                      </td>
-                      <td>{ev.privacy === "private" ? "Riêng tư" : "Công khai"}</td>
-                      <td>{ev.category?.name || "—"}</td>
-                      <td>{ev.createdBy?.email || ev.createdBy || "—"}</td>
-                      <td>
-                        {ev.ticketTypes?.length > 0
-                          ? ev.ticketTypes
-                              .map((t) => `${t.name}: ${t.totalQuantity}`)
-                              .join(", ")
-                          : "—"}
-                      </td>
-                      <td>
-                        {ev.paymentInfo?.bankName
-                          ? `${ev.paymentInfo.bankName} (${ev.paymentInfo.accountNumber})`
-                          : "—"}
-                      </td>
-                      <td className="action-cell">
-                        <button
-                          className="icon-btn edit-btn"
-                          onClick={() => navigate(`/admin/edit-event/${ev._id}`)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          className="icon-btn delete-btn"
-                          onClick={() => handleDelete(ev._id)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
+<thead>
+  <tr>
+    <th>Tên sự kiện</th>
+    <th>Hình thức</th>
+    <th>Địa điểm</th>
+    <th>Thời gian</th>
+    <th>Quyền</th>
+    <th>Danh mục</th>
+    <th>Người tạo</th>
+    <th>Vé</th>
+    <th>Thanh toán</th>
+    <th>Người tham dự</th> {/* Thêm cột mới */}
+    <th>Thao tác</th>
+  </tr>
+</thead>
+<tbody>
+  {events.length === 0 ? (
+    <tr>
+      <td colSpan="11" style={{ textAlign: "center" }}>
+        Không có sự kiện
+      </td>
+    </tr>
+  ) : (
+    events.map((ev) => (
+      <tr key={ev._id}>
+        <td>{ev.name}</td>
+        <td>{ev.mode === "online" ? "Online" : "Offline"}</td>
+        <td>
+          {ev?.location
+            ? `${ev.location.name}, ${ev.location.ward}, ${ev.location.district}, ${ev.location.province} - ${ev.location.addressDetail}`
+            : "—"}
+        </td>
+        <td>
+          {ev.startAt
+            ? new Date(ev.startAt).toLocaleDateString()
+            : ""}
+          {" → "}
+          {ev.endAt
+            ? new Date(ev.endAt).toLocaleDateString()
+            : ""}
+        </td>
+        <td>{ev.privacy === "private" ? "Riêng tư" : "Công khai"}</td>
+        <td>{ev.category?.name || "—"}</td>
+        <td>{ev.createdBy?.email || ev.createdBy || "—"}</td>
+        <td>
+          {ev.ticketTypes?.length > 0
+            ? ev.ticketTypes
+                .map((t) => `${t.name}: ${t.totalQuantity}`)
+                .join(", ")
+            : "—"}
+        </td>
+        <td>
+          {ev.paymentInfo?.bankName
+            ? `${ev.paymentInfo.bankName} (${ev.paymentInfo.accountNumber})`
+            : "—"}
+        </td>
+        {/* Cột mới: Quản lý người tham dự */}
+        <td>
+          <button
+            className="manage-attendees-btn"
+            onClick={() => navigate(`/admin/tickets?eventId=${ev._id}`)}
+          >
+            Quản lý
+          </button>
+        </td>
+        <td className="action-cell">
+          <button
+            className="icon-btn edit-btn"
+            onClick={() => navigate(`/admin/create-event`)}
+          >
+            <FaEdit />
+          </button>
+          <button
+            className="icon-btn delete-btn"
+            onClick={() => handleDelete(ev._id)}
+          >
+            <FaTrash />
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
             </table>
           )}
         </div>

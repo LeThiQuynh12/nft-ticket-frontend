@@ -37,7 +37,7 @@ import WorkshopPage from './pages/WorkshopPage';
 // --- Import phần admin ---
 import ProtectedRoute from './routes/ProtectedRoute';
 
-PaymentSuccessPage
+PaymentSuccessPage;
 
 function App() {
   return (
@@ -47,33 +47,24 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/music" element={<MusicPage />} />
         <Route path="/music/:id" element={<MusicDetail />} />
-
         <Route path="/art" element={<ArtPage />} />
         <Route path="/art/:id" element={<ArtDetail />} />
-
         <Route path="/travel" element={<TravelPage />} />
         <Route path="/travel/:id" element={<TravelDetail />} />
-
         <Route path="/workshop" element={<WorkshopPage />} />
         <Route path="/workshop/:id" element={<WorkshopDetail />} />
-
         <Route path="/movie" element={<MoviePage />} />
-        <Route path="/movie/:id" element={<MovieDetail />} /> {/* ✅ Sửa lỗi 'armoviet' */}
-
+        <Route path="/movie/:id" element={<MovieDetail />} />{" "}
         <Route path="/tour" element={<TourPage />} />
         <Route path="/tour/:id" element={<TourDetail />} />
-
         <Route path="/sport" element={<SportPage />} />
         <Route path="/sport/:id" element={<SportDetail />} />
-
         <Route path="/booking/:id" element={<TicketBookingPage />} />
         <Route path="/payment-confirm" element={<PaymentConfirmPage />} />
-<Route path="/payment-success" element={<PaymentSuccessPage />} />
-
-<Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/payment-success" element={<PaymentSuccessPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         {/* ==================== PHẦN ADMIN ==================== */}
         <Route
           path="/admin"
@@ -83,7 +74,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/events"
           element={
@@ -92,7 +82,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/orders"
           element={
@@ -101,7 +90,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/tickets"
           element={
@@ -110,7 +98,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/users"
           element={
@@ -119,7 +106,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/categories"
           element={
@@ -128,7 +114,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/reports"
           element={
@@ -137,7 +122,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/create-event"
           element={

@@ -118,6 +118,7 @@ export default function PaymentSuccessPage() {
                     <th>Loại vé</th>
                     <th>Metadata (IPFS)</th>
                     <th>Giao dịch</th>
+                    <th>QR Code</th> {/* Cột mới */}
                   </tr>
                 </thead>
                 <tbody>
@@ -142,6 +143,17 @@ export default function PaymentSuccessPage() {
                         >
                           Xem giao dịch
                         </a>
+                      </td>
+                      <td>
+                        {nft.qrCode ? (
+                          <img
+                            src={nft.qrCode}
+                            alt={`QR Token ${nft.tokenId}`}
+                            style={{ width: 100, height: 100 }}
+                          />
+                        ) : (
+                          <span>Chưa có QR</span>
+                        )}
                       </td>
                     </tr>
                   ))}

@@ -27,7 +27,7 @@ export default function AdminHeader() {
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("role");
 
-      // ✅ Điều hướng về trang đăng nhập
+      // Điều hướng về trang đăng nhập
       navigate("/login");
     }
   };

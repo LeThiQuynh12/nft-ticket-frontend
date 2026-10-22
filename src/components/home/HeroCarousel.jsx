@@ -23,7 +23,7 @@ export default function HeroCarousel({ slides }) {
   // Khi idx thay đổi => cuộn đến vị trí ảnh tương ứng
   useEffect(() => {
     if (carouselRef.current) {
-      const width = carouselRef.current.offsetWidth / 3; // 3 ảnh mỗi khung
+      const width = carouselRef.current.offsetWidth / 2; // 3 ảnh mỗi khung
       carouselRef.current.scrollTo({
         left: idx * width,
         behavior: 'smooth',

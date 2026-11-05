@@ -1,228 +1,660 @@
-/* ===== Toàn trang ===== */
+/* =========================================
+   NFTICKET - BOOKING PAGE
+   Dark Navy / Mint Green
+========================================= */
+
 .booking-page {
-  background: #0f0f0f;
-  color: #f0f0f0;
   min-height: 100vh;
+  padding-bottom: 60px;
+  background: #080e1c;
+  color: #f1f5f9;
   font-family: 'Inter', sans-serif;
 }
 
-/* ===== Banner đầu trang ===== */
-.booking-header {
-  position: relative;
-  height: 360px;
-  overflow: hidden;
-}
-.booking-banner {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.65);
-}
-.booking-header .overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.85));
-}
-.booking-header-content {
-  position: absolute;
-  bottom: 30px;
-  left: 60px;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-}
-.booking-header-content h1 {
-  font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #ffd166;
-}
-.booking-header-content p {
-  font-size: 16px;
-  margin: 2px 0;
+.booking-page *,
+.booking-page *::before,
+.booking-page *::after {
+  box-sizing: border-box;
 }
 
-/* ===== Bố cục chính ===== */
+/* ===== Main layout ===== */
+
 .booking-container {
-  display: flex;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.7fr);
+  align-items: start;
+  gap: 24px;
+
+  width: 100%;
   max-width: 1280px;
-  margin: 40px auto;
-  padding: 0 40px;
-  align-items: flex-start;
+  margin: 32px auto 0;
+  padding: 0 24px;
 }
+
+.left-section,
+.right-section {
+  min-width: 0;
+}
+
 .left-section {
-  flex: 1;
+  position: sticky;
+  top: 100px;
+}
+
+.right-section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-.right-section {
-  flex: 2;
+  gap: 20px;
 }
 
-/* ===== Card wrapper ===== */
-.card {
-  background: #1a1a1a;
-  border-radius: 12px;
+/* ===== Common card ===== */
+
+.booking-card {
+  background: linear-gradient(145deg, #142236 0%, #101b2d 100%);
+  border: 1px solid #263b52;
+  border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-  border: 1px solid #2a2a2a;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+  transition: border-color 0.25s ease;
 }
 
-/* ===== Form khách hàng ===== */
-.booking-form h3,
-.payment-methods h3,
-.seat-map h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #f05454;
-  margin-bottom: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.booking-card:hover {
+  border-color: #354f65;
 }
 
-.booking-form label {
-  display: block;
-  margin-bottom: 4px;
-  color: #ccc;
-  font-size: 14px;
-}
-.booking-form input {
-  width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 14px;
-  border-radius: 6px;
-  border: 1px solid #444;
-  background: #0f0f0f;
-  color: #eee;
-  transition: border-color 0.2s;
-}
-.booking-form input:focus {
-  outline: none;
-  border-color: #f05454;
-}
+/* ===== Section heading ===== */
 
-/* ===== Phương thức thanh toán ===== */
-.payment-methods label {
+.booking-section-heading {
   display: flex;
   align-items: center;
-  margin: 8px 0;
-  gap: 8px;
-  font-size: 15px;
-  color: #ddd;
-  cursor: pointer;
-}
-.payment-methods input[type="radio"] {
-  accent-color: #f05454;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #293c51;
 }
 
-/* ===== Sơ đồ ghế và bảng giá ===== */
-.seatmap-img {
+.section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 46px;
+
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+
+  background: rgba(66, 230, 149, 0.12);
+  color: #62e69c;
+  font-size: 19px;
+}
+
+.section-subtitle {
+  display: block;
+  margin-bottom: 5px;
+
+  color: #62e69c;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.booking-section-heading h3,
+.selected-heading h3,
+.total-heading h3 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+/* =========================================
+   CUSTOMER INFORMATION
+========================================= */
+
+.booking-form {
+  padding: 24px;
+}
+
+.booking-form .booking-section-heading {
+  align-items: center;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group label span {
+  color: #62e69c;
+}
+
+.form-group input {
   width: 100%;
-  border-radius: 10px;
+  height: 44px;
+  padding: 0 13px;
+
+  background: #0b1525;
+  border: 1px solid #30445b;
+  border-radius: 9px;
+
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+
+  transition: all 0.25s ease;
+}
+
+.form-group input::placeholder {
+  color: #718096;
+}
+
+.form-group input:focus {
+  border-color: #42e695;
+  background: #0e1b2d;
+  box-shadow: 0 0 0 3px rgba(66, 230, 149, 0.09);
+}
+
+.form-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  margin-top: 22px;
+  padding: 13px;
+
+  background: rgba(66, 230, 149, 0.06);
+  border: 1px solid rgba(66, 230, 149, 0.15);
+  border-radius: 9px;
+
+  color: #9eb5ad;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.form-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #62e69c;
+}
+
+/* =========================================
+   EVENT INFORMATION
+========================================= */
+
+.booking-event-card {
+  padding: 25px;
+}
+
+.booking-event-card h1 {
+  font-family: inherit !important;
+  font-size: 27px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0;
+  color: #ffffff;
+  margin: 8px 0 22px;
+}
+.booking-page,
+.booking-page h1,
+.booking-page h2,
+.booking-page h3,
+.booking-page p,
+.booking-page span,
+.booking-page label,
+.booking-page input,
+.booking-page button,
+.booking-page select {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.booking-event-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.booking-meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  min-width: 0;
+  padding: 15px;
+
+  background: #0d1929;
+  border: 1px solid #293e54;
+  border-radius: 11px;
+}
+
+.booking-meta-item > svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: #62e69c;
+  font-size: 17px;
+}
+
+.booking-meta-item div {
+  min-width: 0;
+}
+
+.booking-meta-item small {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #62e69c;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.booking-meta-item p {
+  margin: 0;
+  color: #dce5ef;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   SEAT MAP
+========================================= */
+
+.seatmap-card {
+  padding: 22px;
+}
+
+.seatmap-card .booking-section-heading {
+  margin-bottom: 18px;
+}
+
+.seatmap-img {
+  display: block;
+  width: 100%;
+  max-height: 380px;
+  padding: 12px;
+
+  object-fit: contain;
+  background: #0b1525;
+  border: 1px solid #293e54;
+  border-radius: 11px;
+}
+
+/* =========================================
+   TICKET SELECTION
+========================================= */
+
+.ticket-selection-card {
+  padding: 22px;
+}
+
+.ticket-selection-card .booking-section-heading {
   margin-bottom: 20px;
-  border: 1px solid #333;
+}
+
+.ticket-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #293e54;
+  border-radius: 11px;
 }
 
 .ticket-table {
   width: 100%;
-  border-collapse: collapse;
-  background: #121212;
-  color: #eee;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-.ticket-table th, .ticket-table td {
-  border: 1px solid #2a2a2a;
-  padding: 10px;
-  text-align: center;
-}
-.ticket-table th {
-  background: #1e1e1e;
-  text-transform: uppercase;
-  color: #f05454;
-  font-weight: 600;
-}
-.add-btn {
-  background: #f05454;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.add-btn:hover {
-  background: #ff6b6b;
+  min-width: 650px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  background: #0d1727;
+  color: #e2e8f0;
+  font-size: 12px;
 }
 
-.selected-list {
-  background: #181818;
-  padding: 16px;
+.ticket-table th,
+.ticket-table td {
+  padding: 14px 10px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid #25384e;
+}
+
+.ticket-table th {
+  background: #1a2a40;
+  color: #62e69c;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ticket-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ticket-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.ticket-table tbody tr:hover {
+  background: rgba(66, 230, 149, 0.035);
+}
+
+.ticket-type {
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.ticket-price {
+  color: #62e69c;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+/* Select */
+
+.ticket-table select {
+  width: 100%;
+  min-width: 110px;
+  max-width: 155px;
+  height: 37px;
+  padding: 0 9px;
+
+  background: #142238;
+  color: #e2e8f0;
+  border: 1px solid #354a62;
+  border-radius: 7px;
+
+  font-family: inherit;
+  font-size: 11px;
+  outline: none;
+  cursor: pointer;
+}
+
+.ticket-table select:focus {
+  border-color: #42e695;
+}
+
+.ticket-table select option {
+  background: #142238;
+  color: #ffffff;
+}
+
+/* Add button */
+
+.add-btn {
+  padding: 9px 13px;
+
+  background: linear-gradient(100deg, #42e695, #3bb2b8);
+  color: #08221d;
+
+  border: none;
+  border-radius: 7px;
+
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(66, 230, 149, 0.2);
+}
+
+.ticket-empty {
+  padding: 25px 15px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* =========================================
+   SELECTED TICKETS
+========================================= */
+
+.selected-card {
+  padding: 22px;
+}
+
+.selected-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+
+  margin-bottom: 18px;
+}
+
+.selected-count {
+  padding: 6px 12px;
+
+  background: rgba(66, 230, 149, 0.1);
+  border: 1px solid rgba(66, 230, 149, 0.2);
+  border-radius: 20px;
+
+  color: #62e69c;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.selected-ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selected-ticket {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding: 13px;
+  background: #0d1929;
+  border: 1px solid #293e54;
+  border-radius: 10px;
+}
+
+.selected-ticket-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 39px;
+  height: 39px;
+
+  background: rgba(66, 230, 149, 0.1);
+  color: #62e69c;
+  border-radius: 9px;
+}
+
+.selected-ticket-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.selected-ticket-info strong {
+  color: #f1f5f9;
+  font-size: 13px;
+}
+
+.selected-ticket-info span {
+  color: #94a3b8;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.selected-ticket-price {
+  color: #62e69c;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.remove-ticket-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+
+  background: rgba(248, 113, 113, 0.08);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.16);
   border-radius: 8px;
-  margin-top: 12px;
-  border: 1px solid #2b2b2b;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.selected-list h4 {
-  color: #ffd166;
+
+.remove-ticket-btn:hover {
+  background: rgba(248, 113, 113, 0.18);
+}
+
+.selected-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 24px 12px;
+
+  background: #0d1929;
+  border: 1px dashed #354a62;
+  border-radius: 10px;
+
+  text-align: center;
+}
+
+.selected-empty svg {
   margin-bottom: 10px;
+  color: #62e69c;
+  font-size: 25px;
 }
-.selected-list ul {
-  margin-left: 16px;
+
+.selected-empty p {
+  margin: 0 0 5px;
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.selected-empty span {
+  color: #8493a7;
+  font-size: 11px;
+}
+
+/* =========================================
+   PAYMENT SUMMARY
+========================================= */
+
+.total-section {
+  padding: 23px;
+  background: linear-gradient(145deg, #14283a, #101d2e);
+  border-color: #345044;
+}
+
+.total-heading {
+  margin-bottom: 20px;
+}
+
+.total-heading h3 {
+  font-size: 18px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 0;
+
+  color: #aebdd0;
+  font-size: 13px;
+}
+
+.total-row strong {
+  color: #e2e8f0;
+  font-weight: 700;
+}
+
+.total-final {
+  margin-top: 5px;
+  padding: 18px 0;
+
+  border-top: 1px solid #354b5d;
+  border-bottom: 1px solid #354b5d;
+}
+
+.total-final span {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.total-final strong {
+  color: #62e69c;
+  font-size: 23px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+/* Agreement */
+
+.agreement {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  margin: 19px 0;
+  color: #aebdd0;
+  font-size: 12px;
   line-height: 1.6;
 }
 
-/* ===== Tổng cộng & thanh toán ===== */
-.total-section {
-  margin-top: 24px;
-  background: #141414;
-  border: 1px solid #333;
-  padding: 20px;
-  border-radius: 10px;
-}
-.total-section input {
-  width: 70%;
-  padding: 8px 10px;
-  border: 1px solid #444;
-  background: #0f0f0f;
-  color: #fff;
-  border-radius: 6px;
-}
-.check-btn {
-  background: #ffd166;
-  color: #111;
-  border: none;
-  padding: 8px 12px;
-  margin-left: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-}
-.total {
-  margin: 12px 0;
-  font-size: 16px;
-  color: #fff;
-}
-.agreement {
-  display: flex;
-  margin-bottom: 16px;
-  justify-content: center;
-  
-  align-items: center;
-  gap: 6px; /* chỉnh khoảng cách nhỏ giữa checkbox và chữ */
-  font-size: 14px;
-  color: #fff; /* hoặc #000 tùy nền */
-}
-
-.agreement input[type="checkbox"] {
-  margin: 0;
+.agreement input {
+  flex-shrink: 0;
   width: 16px;
   height: 16px;
-  accent-color: #ff4b2b; /* màu tick nếu muốn tuỳ chỉnh */
+  margin: 1px 0 0;
+
+  accent-color: #42e695;
+  cursor: pointer;
+}
+
+.agreement label {
+  cursor: pointer;
 }
 
 .agreement a {
-  color: #ff4b2b; /* màu link nổi bật */
+  color: #62e69c;
+  font-weight: 700;
   text-decoration: none;
 }
 
@@ -230,35 +662,241 @@
   text-decoration: underline;
 }
 
+/* Continue button */
 
 .btn-continue {
-  background: linear-gradient(135deg, #f05454, #ff6b6b);
-  color: white;
-  border: none;
-  padding: 14px 20px;
-  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 11px;
+
   width: 100%;
-  font-weight: 600;
+  min-height: 50px;
+  padding: 13px 18px;
+
+  background: linear-gradient(100deg, #42e695, #3bb2b8);
+  color: #08221d;
+
+  border: none;
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 850;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.btn-continue:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(240, 84, 84, 0.4);
+
+  box-shadow: 0 5px 18px rgba(66, 230, 149, 0.15);
+  transition: all 0.25s ease;
 }
 
-/* ===== Empty state ===== */
-.empty-state {
-  text-align: center;
-  margin-top: 80px;
-  color: #ddd;
+.btn-continue:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(66, 230, 149, 0.28);
 }
-.back-link {
-  color: #f05454;
+
+.btn-continue:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-continue svg {
+  transition: transform 0.25s ease;
+}
+
+.btn-continue:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+.payment-note {
+  margin: 13px 0 0;
+  color: #8190a4;
+  font-size: 10px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* =========================================
+   LOADING / EMPTY STATE
+========================================= */
+
+.booking-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 65vh;
+  padding: 30px;
+  text-align: center;
+}
+
+.booking-status > svg {
+  color: #62e69c;
+  font-size: 40px;
+  margin-bottom: 18px;
+}
+
+.booking-status h2 {
+  color: #ffffff;
+  font-size: 22px;
+}
+
+.booking-status p {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.booking-spinner {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 15px;
+
+  border: 3px solid #263b52;
+  border-top-color: #42e695;
+  border-radius: 50%;
+
+  animation: booking-spin 0.8s linear infinite;
+}
+
+@keyframes booking-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.booking-back-link {
   display: inline-block;
   margin-top: 12px;
+  padding: 11px 18px;
+
+  background: rgba(66, 230, 149, 0.1);
+  border: 1px solid rgba(66, 230, 149, 0.25);
+  border-radius: 8px;
+
+  color: #62e69c;
   text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
 }
-.back-link:hover {
-  text-decoration: underline;
+
+/* =========================================
+   RESPONSIVE TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+  .booking-container {
+    grid-template-columns: minmax(250px, 0.75fr) minmax(0, 1.5fr);
+    gap: 16px;
+    padding: 0 18px;
+  }
+
+  .booking-card {
+    padding: 19px;
+  }
+
+  .booking-event-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .left-section {
+    top: 85px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .booking-container {
+    grid-template-columns: 1fr;
+    gap: 17px;
+    margin-top: 20px;
+    padding: 0 14px;
+  }
+
+  .left-section {
+    position: static;
+  }
+
+  .right-section {
+    gap: 16px;
+  }
+
+  .booking-card {
+    padding: 18px;
+    border-radius: 13px;
+  }
+
+  .booking-event-card h1 {
+    font-size: 20px;
+  }
+
+  .booking-event-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .selected-ticket {
+    flex-wrap: wrap;
+  }
+
+  .selected-ticket-price {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-container {
+    padding: 0 11px;
+  }
+
+  .booking-card {
+    padding: 15px;
+  }
+
+  .booking-section-heading h3,
+  .selected-heading h3 {
+    font-size: 15px;
+  }
+
+  .section-icon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    font-size: 16px;
+  }
+
+  .booking-event-card h1 {
+    font-size: 18px;
+  }
+
+  .total-final strong {
+    font-size: 19px;
+  }
+
+  .selected-ticket {
+    gap: 9px;
+  }
+
+  .selected-ticket-price {
+    font-size: 12px;
+  }
+}
+
+.booking-card {
+  background: #121f32;
+  border: 1px solid #263a50;
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+}
+
+.right-section {
+  gap: 22px;
+}
+
+.booking-section-heading {
+  margin-bottom: 22px;
+  padding-bottom: 17px;
 }

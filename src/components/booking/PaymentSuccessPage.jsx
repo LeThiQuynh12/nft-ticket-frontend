@@ -143,7 +143,7 @@ export default function PaymentSuccessPage() {
               THANH TOÁN THÀNH CÔNG
             </div>
 
-            <h1>Đặt vé thành công!</h1>
+            <h2>Đặt vé thành công!</h2>
 
             <p>
               Cảm ơn bạn đã tin tưởng NFTicket.

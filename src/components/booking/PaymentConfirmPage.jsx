@@ -90,7 +90,7 @@ export default function PaymentConfirmPage() {
             </div>
 
             <div>
-              <h1>Xác nhận thanh toán</h1>
+              <h2>Xác nhận thanh toán</h2>
               <p>
                 Đơn hàng của bạn đã được tạo. Hoàn tất thanh toán để sở hữu
                 vé tham dự sự kiện.

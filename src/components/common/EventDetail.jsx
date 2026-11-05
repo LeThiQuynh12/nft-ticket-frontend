@@ -84,7 +84,7 @@ export default function EventDetail({ event, category }) {
             <FaStar /> SỰ KIỆN NỔI BẬT
           </span>
 
-          <h1>{event.title}</h1>
+          <h2>{event.title}</h2>
 
           <div className="banner-info">
             <span>
@@ -108,7 +108,7 @@ export default function EventDetail({ event, category }) {
             <div className="overview-header">
               <div>
                 <span className="section-label">EVENT INFORMATION</span>
-                <h1 className="event-heading">{event.title}</h1>
+                <h2 className="event-heading">{event.title}</h2>
               </div>
 
               <div className="views">

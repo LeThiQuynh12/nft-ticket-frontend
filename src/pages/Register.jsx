@@ -191,29 +191,34 @@ export default function RegisterForm() {
               onSuccess={setCaptchaToken}
             />
           </div>
-
           {/* ==== CHECKBOX ĐỒNG Ý ==== */}
           <div className="form-group checkbox-group">
             <label className="checkbox-label">
               <input
                 type="checkbox"
+                className="terms-checkbox"
                 checked={formData.agreeTerms || false}
                 onChange={(e) =>
                   setFormData({ ...formData, agreeTerms: e.target.checked })
                 }
               />
 
-              <p className="form-label">Đồng ý với</p>
-              <a
-                href="/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                các chính sách và điều kiện sử dụng của website
-              </a>
-              <span className="required">*</span>
+              <span className="terms-text">
+                <span className="terms-title">Đồng ý với </span>
+                <a
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  các chính sách và điều kiện sử dụng của website
+                </a>
+                <span className="required"> *</span>
+              </span>
             </label>
-            {errors.agreeTerms && <p className="error">{errors.agreeTerms}</p>}
+
+            {errors.agreeTerms && (
+              <p className="error">{errors.agreeTerms}</p>
+            )}
           </div>
 
           <button

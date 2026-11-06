@@ -10,22 +10,29 @@ import {
   FaCalendarAlt,
   FaClock,
   FaEnvelope,
+  FaExclamationCircle,
   FaEye,
   FaHeadset,
+  FaLock,
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaShieldAlt,
   FaStar,
   FaTicketAlt,
+  FaTimes,
 } from 'react-icons/fa';
 import {
   Link,
   useNavigate,
+  useLocation,
 } from 'react-router-dom';
 
 export default function EventDetail({ event, category }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Tự động chuyển ảnh gallery
   useEffect(() => {
@@ -66,8 +73,19 @@ export default function EventDetail({ event, category }) {
   const startTime = formatDate(event.startAt);
   const endTime = formatDate(event.endAt);
 
+  // Xử lý khi nhấn MUA VÉ NGAY
   const handleBuyNow = () => {
-    navigate(`/booking/${event.id}`, { state: { event } });
+    // Kiểm tra token hoặc thông tin đăng nhập trong localStorage
+    const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
+    const user = localStorage.getItem('user');
+
+    if (token || user) {
+      // Đã đăng nhập -> Cho phép vào màn đặt vé bình thường
+      navigate(`/booking/${event.id || event._id}`, { state: { event } });
+    } else {
+      // Chưa đăng nhập -> Bật popup yêu cầu đăng nhập
+      setShowLoginModal(true);
+    }
   };
 
   return (
@@ -318,7 +336,7 @@ export default function EventDetail({ event, category }) {
 
             <button className="btn-buy" onClick={handleBuyNow}>
               MUA VÉ NGAY
-              <FaArrowRight />
+             
             </button>
 
             <div className="booking-benefits">
@@ -339,7 +357,7 @@ export default function EventDetail({ event, category }) {
             </div>
 
             <Link to={`/${category}`} className="back-link">
-              ← Quay lại danh sách sự kiện
+              Quay lại danh sách sự kiện
             </Link>
           </div>
 
@@ -370,12 +388,57 @@ export default function EventDetail({ event, category }) {
 
             <div className="promo-bottom">
               <span>EXPERIENCE MORE</span>
-              <FaArrowRight />
             </div>
           </div>
 
         </aside>
       </div>
+
+      {/* ===== POPUP YÊU CẦU ĐĂNG NHẬP ===== */}
+      {showLoginModal && (
+        <div className="login-modal-overlay" onClick={() => setShowLoginModal(false)}>
+          <div className="login-modal-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="login-modal-close"
+              onClick={() => setShowLoginModal(false)}
+              aria-label="Đóng popup"
+            >
+              <FaTimes />
+            </button>
+
+            <div className="login-modal-icon">
+              <FaLock />
+            </div>
+
+            <h3>Yêu cầu đăng nhập</h3>
+
+            <p>
+              Bạn cần đăng nhập vào tài khoản để tiếp tục chọn vị trí ghế ngồi
+              và đặt vé sự kiện <strong>"{event.title}"</strong>.
+            </p>
+
+            <div className="login-modal-actions">
+              <button
+                className="btn-modal-cancel"
+                onClick={() => setShowLoginModal(false)}
+              >
+                Hủy bỏ
+              </button>
+
+              <button
+                className="btn-modal-login"
+                onClick={() => {
+                  setShowLoginModal(false);
+                  navigate('/login', { state: { from: location } });
+                }}
+              >
+                Đăng nhập ngay
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

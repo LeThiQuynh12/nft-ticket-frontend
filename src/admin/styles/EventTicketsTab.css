@@ -236,3 +236,247 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   filter: invert(0.5); /* nếu background tối cần đổi màu icon */
 }
+
+
+.ets-ticket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 28px 0 20px;
+}
+
+.ets-ticket-header h4 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+
+.ets-ticket-header p {
+  margin: 0;
+  color: #82909e;
+  font-size: 13px;
+}
+
+.ets-ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ets-ticket-card {
+  padding: 20px;
+  border: 1px solid #263b4c;
+  border-radius: 14px;
+  background: #101e2b;
+}
+
+.ets-ticket-card-header,
+.ets-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ets-ticket-card-header h4 {
+  margin: 0 0 7px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.ets-ticket-card-header span {
+  color: #42e695;
+  font-weight: 700;
+}
+
+.ets-ticket-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin: 18px 0;
+  color: #a9b8c5;
+  font-size: 13px;
+}
+
+.ets-ticket-info b {
+  color: #fff;
+}
+
+.ets-section-list {
+  border-top: 1px solid #263b4c;
+  padding-top: 18px;
+}
+
+.ets-section-list h5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 15px;
+  color: #42e695;
+}
+
+.ets-section-card,
+.ets-add-section {
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #30485a;
+  border-radius: 10px;
+  background: #172938;
+}
+
+.ets-section-heading {
+  margin-bottom: 12px;
+}
+
+.ets-section-heading input,
+.ets-add-section input,
+.ets-section-card textarea,
+.ets-add-section textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #3a5264;
+  border-radius: 8px;
+  background: #0e1b27;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+.ets-section-heading input:focus,
+.ets-add-section input:focus,
+.ets-section-card textarea:focus,
+.ets-add-section textarea:focus {
+  border-color: #42e695;
+}
+
+.ets-section-card label,
+.ets-add-section label {
+  display: block;
+  margin-bottom: 8px;
+  color: #c3d0da;
+  font-size: 13px;
+}
+
+.ets-section-card textarea,
+.ets-add-section textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.ets-section-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #8fa4b5;
+  font-size: 12px;
+}
+
+.ets-add-section small {
+  display: block;
+  margin-top: 7px;
+  color: #82909e;
+}
+
+.ets-add-section-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  margin-top: 14px;
+  border: 1px solid #42e695;
+  border-radius: 8px;
+  background: transparent;
+  color: #42e695;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ets-add-section-btn:hover {
+  background: rgba(66, 230, 149, 0.1);
+}
+
+.ets-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 1px solid #70404a;
+  border-radius: 8px;
+  background: transparent;
+  color: #ff7585;
+  cursor: pointer;
+}
+
+.ets-delete-btn:hover {
+  background: rgba(255, 80, 100, 0.12);
+}
+
+.ets-seat-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.ets-seat-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #30485a;
+  border-radius: 10px;
+  background: #142635;
+}
+
+.ets-seat-summary span {
+  color: #9aabba;
+  font-size: 13px;
+}
+
+.ets-seat-summary strong {
+  color: #42e695;
+  font-size: 23px;
+}
+
+.ets-empty {
+  padding: 35px 15px;
+  text-align: center;
+  border: 1px dashed #40586b;
+  border-radius: 12px;
+  color: #a7b5c1;
+}
+
+.ets-empty svg {
+  font-size: 28px;
+  color: #42e695;
+}
+
+.ets-empty p {
+  margin: 12px 0 5px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.ets-empty span {
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .ets-ticket-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ets-seat-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .ets-ticket-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

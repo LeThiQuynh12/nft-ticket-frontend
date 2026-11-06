@@ -761,3 +761,137 @@
     flex-direction: column;
   }
 }
+
+/* ================================
+   DANH SÁCH VÉ ĐÃ ĐẶT
+================================ */
+
+.confirm-ticket-list {
+  width: 100%;
+  margin-top: 24px;
+  padding: 22px;
+  background: #111d2e;
+  border: 1px solid rgba(66, 230, 149, 0.18);
+  border-radius: 14px;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #f1f5f9;
+}
+
+.confirm-ticket-list h3 {
+  margin: 0 0 18px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Từng vé */
+.confirm-ticket-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  background: #19283b;
+  border: 1px solid #293c50;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.confirm-ticket-item:last-child {
+  margin-bottom: 0;
+}
+
+.confirm-ticket-item:hover {
+  background: #1d3445;
+  border-color: rgba(66, 230, 149, 0.45);
+}
+
+/* Thông tin vé */
+.confirm-ticket-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.confirm-ticket-info strong {
+  display: block;
+  max-width: 100%;
+  color: #f1f5f9;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.confirm-ticket-info span {
+  display: block;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Giá vé */
+.confirm-ticket-item > strong {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #42e695, #3bb2b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Không có vé */
+.confirm-no-ticket {
+  margin: 0;
+  padding: 18px;
+  color: #94a3b8;
+  background: #19283b;
+  border: 1px dashed #35495e;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .confirm-ticket-list {
+    padding: 16px;
+    margin-top: 18px;
+  }
+
+  .confirm-ticket-list h3 {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .confirm-ticket-item {
+    gap: 10px;
+    padding: 13px 12px;
+  }
+
+  .confirm-ticket-info strong {
+    font-size: 14px;
+  }
+
+  .confirm-ticket-info span {
+    font-size: 12px;
+  }
+
+  .confirm-ticket-item > strong {
+    font-size: 13px;
+  }
+}

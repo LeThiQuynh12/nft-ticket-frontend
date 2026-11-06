@@ -75,7 +75,6 @@
   outline: none;
 }
 
-/* ==== Captcha ==== */
 .captcha-box-small {
   margin: 16px 0;
   background: #fafafa;
@@ -87,7 +86,6 @@
   border: 1px solid #e3e8f0;
 }
 
-/* ==== Button ==== */
 .btn-register {
   width: 100%;
   background: linear-gradient(90deg, #42e695, #3bb2b8);
@@ -106,7 +104,6 @@
   box-shadow: 0 6px 20px rgba(59, 178, 184, 0.28);
 }
 
-/* ==== Status ==== */
 .status-message {
   margin-top: 12px;
   color: #e63946;
@@ -115,7 +112,6 @@
   text-align: center;
 }
 
-/* ==== Switch ==== */
 .login-switch {
   margin-top: 20px;
   font-size: 14px;
@@ -139,8 +135,8 @@
   margin: 12px 0 20px 0;
 }
 
-.request-text{
-     font-size: 15px !important;
+.request-text {
+  font-size: 15px !important;
 }
 
 .password-rules p {
@@ -181,12 +177,12 @@
 
 .checkbox-label {
   display: flex;
-  align-items: center; 
+  align-items: center;
   gap: 10px;
 }
 
 .checkbox-label input[type="checkbox"] {
-  margin-top: 0; 
+  margin-top: 0;
 }
 
 
@@ -205,7 +201,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.45); /* nền mờ */
+  background: rgba(0, 0, 0, 0.45);
+  /* nền mờ */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -253,4 +250,162 @@
 
 .btn-close:hover {
   background: #c2c2c2;
+}
+
+/* ==== FIX INPUT BỊ GHI ĐÈ MÀU NỀN ==== */
+.register-container .register-card-small .form-group input.form-input {
+  background-color: #fafafa !important;
+  color: #1a1a1a !important;
+  -webkit-text-fill-color: #1a1a1a !important;
+  border: 1.5px solid #d3d9e5;
+  font-family: inherit;
+}
+
+/* Khi focus: giữ nguyên màu nền, chỉ áp dụng hiệu ứng viền cũ */
+.register-container .register-card-small .form-group input.form-input:focus {
+  background-color: #fafafa !important;
+  color: #1a1a1a !important;
+  -webkit-text-fill-color: #1a1a1a !important;
+  border-color: #4da3ff;
+  box-shadow: 0 0 10px rgba(77, 163, 255, 0.35);
+  outline: none;
+}
+
+/* Fix màu nền khi Chrome tự động điền email/mật khẩu */
+.register-container .register-card-small input.form-input:-webkit-autofill,
+.register-container .register-card-small input.form-input:-webkit-autofill:hover,
+.register-container .register-card-small input.form-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #1a1a1a !important;
+  -webkit-box-shadow: 0 0 0 1000px #fafafa inset !important;
+  box-shadow: 0 0 0 1000px #fafafa inset !important;
+  caret-color: #1a1a1a;
+}
+
+/* =================================
+   FIX CSS BỊ GHI ĐÈ TRONG FORM
+================================= */
+
+/* Label */
+.register-container .register-card-small .form-label {
+  color: #394b6a !important;
+}
+
+/* Dấu * */
+.register-container .register-card-small .required {
+  color: #e63946 !important;
+}
+
+/* Input email, password, OTP */
+.register-container .register-card-small input.form-input,
+.otp-modal input.form-input {
+  background: #fafafa !important;
+  background-color: #fafafa !important;
+  color: #1a1a1a !important;
+  -webkit-text-fill-color: #1a1a1a !important;
+  border: 1.5px solid #d3d9e5 !important;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 15px !important;
+}
+
+/* Placeholder */
+.register-container .register-card-small input.form-input::placeholder,
+.otp-modal input.form-input::placeholder {
+  color: #757575 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #757575 !important;
+}
+
+/* Focus */
+.register-container .register-card-small input.form-input:focus,
+.otp-modal input.form-input:focus {
+  background: #fafafa !important;
+  background-color: #fafafa !important;
+  color: #1a1a1a !important;
+  border-color: #4da3ff !important;
+  box-shadow: 0 0 10px rgba(77, 163, 255, 0.35) !important;
+  outline: none !important;
+}
+
+/* Chrome Autofill */
+.register-container input.form-input:-webkit-autofill,
+.register-container input.form-input:-webkit-autofill:hover,
+.register-container input.form-input:-webkit-autofill:focus,
+.otp-modal input.form-input:-webkit-autofill {
+  -webkit-text-fill-color: #1a1a1a !important;
+  -webkit-box-shadow: 0 0 0 1000px #fafafa inset !important;
+  box-shadow: 0 0 0 1000px #fafafa inset !important;
+  caret-color: #1a1a1a !important;
+}
+
+.register-container .login-switch {
+  color: #394b6a !important;
+}
+
+.register-container .login-switch a {
+  color: #42e695 !important;
+}
+
+.register-container .status-message {
+  color: #e63946 !important;
+}
+
+/* ==== FIX CHECKBOX ĐỒNG Ý ==== */
+.register-container .checkbox-group {
+  margin: 16px 0;
+  text-align: left;
+}
+
+.register-container .checkbox-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Checkbox */
+.register-container .terms-checkbox {
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: #42e695;
+}
+
+
+.register-container .terms-text {
+  flex: 1;
+  min-width: 0;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.6;
+  color: #394b6a !important;
+}
+
+
+.register-container .terms-title {
+  color: #394b6a !important;
+  font-weight: 600;
+}
+
+
+.register-container .terms-text a {
+  color: #0000ee !important;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.register-container .terms-text a:hover {
+  text-decoration: underline;
+}
+
+/* Dấu sao */
+.register-container .terms-text .required {
+  color: #e63946 !important;
 }

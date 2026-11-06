@@ -36,8 +36,9 @@ export default function TicketBookingPage() {
   const [loadingEvent, setLoadingEvent] = useState(false);
 
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedZones, setSelectedZones] = useState({});
-  const [selectedSeatNums, setSelectedSeatNums] = useState({});
+  const [seatData, setSeatData] = useState([]);
+  const [loadingSeats, setLoadingSeats] = useState(false);
+  const [seatError, setSeatError] = useState('');
 
   const [customer, setCustomer] = useState({
     name: '',
@@ -57,6 +58,46 @@ export default function TicketBookingPage() {
       behavior: 'instant',
     });
   }, [location.pathname]);
+
+  useEffect(() => {
+    const eventId = event?._id || id;
+
+    if (!eventId) return;
+
+    let isMounted = true;
+
+    const fetchSeats = async () => {
+      try {
+        setLoadingSeats(true);
+        setSeatError('');
+
+        const res = await eventApi.getEventSeats(eventId);
+
+        if (isMounted && res.success) {
+          setSeatData(res.ticketTypes || []);
+        }
+      } catch (error) {
+        console.error('Lỗi lấy sơ đồ ghế:', error);
+
+        if (isMounted) {
+          setSeatError(
+            error.response?.data?.message ||
+            'Không thể tải trạng thái ghế.'
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setLoadingSeats(false);
+        }
+      }
+    };
+
+    fetchSeats();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [event?._id, id]);
 
   // Đồng bộ event khi điều hướng sang một sự kiện khác
   useEffect(() => {
@@ -101,11 +142,11 @@ export default function TicketBookingPage() {
       zones: ticket.zones?.length
         ? ticket.zones
         : [
-            'Khu A - Sân khấu trung tâm',
-            'Khu B - Cánh trái',
-            'Khu C - Cánh phải',
-            'Khu D - Phía sau',
-          ],
+          'Khu A - Sân khấu trung tâm',
+          'Khu B - Cánh trái',
+          'Khu C - Cánh phải',
+          'Khu D - Phía sau',
+        ],
       seats: ticket.seats?.length
         ? ticket.seats
         : Array.from({ length: 10 }, (_, i) => `Ghế ${i + 1}`),
@@ -152,29 +193,29 @@ export default function TicketBookingPage() {
     }));
   };
 
-  // Thêm vé vào danh sách
-  const handleSeatAdd = (ticketType, price, zone, seat) => {
-    if (!zone || !seat) {
-      alert('Vui lòng chọn khu vực và ghế!');
+  const handleSeatAdd = (ticket, section, seat) => {
+    if (!seat._id || seat.status !== 'available') {
       return;
     }
 
-    // Không cho phép chọn trùng khu và ghế
-    const isDuplicate = selectedSeats.some(
-      (item) => item.zone === zone && item.seat === seat
+    const duplicated = selectedSeats.some(
+      (item) => item.seatId === seat._id
     );
 
-    if (isDuplicate) {
-      alert('Ghế này đã được thêm vào danh sách!');
+    if (duplicated) {
+      alert('Ghế này đã được chọn!');
       return;
     }
 
     const newItem = {
-      id: `${Date.now()}-${Math.random()}`,
-      ticketType,
-      price: Number(price || 0),
-      zone,
-      seat,
+      id: seat._id,
+      seatId: seat._id,
+      ticketTypeId: ticket._id,
+      sectionId: section._id,
+      ticketType: ticket.name,
+      price: Number(ticket.price || 0),
+      zone: section.name,
+      seat: seat.seatNumber,
     };
 
     setSelectedSeats((prev) => [...prev, newItem]);
@@ -211,9 +252,9 @@ export default function TicketBookingPage() {
     const orderPayload = {
       eventId: event._id || id,
       tickets: selectedSeats.map((item) => ({
-        ticketType: item.ticketType,
-        zone: item.zone,
-        seat: item.seat,
+        ticketTypeId: item.ticketTypeId,
+        sectionId: item.sectionId,
+        seatId: item.seatId,
       })),
       description: `Thanh toán ${event.title}`,
       buyerName: customer.name.trim(),
@@ -370,13 +411,14 @@ export default function TicketBookingPage() {
           <div className="booking-event-card booking-card">
             <span className="section-subtitle">EVENT INFORMATION</span>
 
-            <h1>{event.title}</h1>
+            <h1>{event.name || event.title}</h1>
 
             <div className="booking-event-meta">
               <div className="booking-meta-item">
                 <FaMapMarkerAlt />
                 <div>
-                  <small>ĐỊA ĐIỂM</small>
+                  <small>LOCATION</small>
+                  <span className="meta-sublabel">Địa điểm</span>
                   <p>{eventLocation}</p>
                 </div>
               </div>
@@ -384,7 +426,8 @@ export default function TicketBookingPage() {
               <div className="booking-meta-item">
                 <FaCalendarAlt />
                 <div>
-                  <small>THỜI GIAN</small>
+                  <small>TIME</small>
+                  <span className="meta-sublabel">Thời gian</span>
                   <p>
                     {formatDate(event.startAt)}
                     {event.endAt && ` – ${formatDate(event.endAt)}`}
@@ -395,7 +438,7 @@ export default function TicketBookingPage() {
           </div>
 
           {/* Seat map */}
-          {event.seatMap && (
+          {(event.seatMapUrl || event.seatMap) && (
             <div className="booking-card seatmap-card">
               <div className="booking-section-heading">
                 <div className="section-icon">
@@ -409,7 +452,7 @@ export default function TicketBookingPage() {
               </div>
 
               <img
-                src={event.seatMap}
+                src={event.seatMapUrl || event.seatMap}
                 alt="Sơ đồ chỗ ngồi sự kiện"
                 className="seatmap-img"
               />
@@ -417,6 +460,8 @@ export default function TicketBookingPage() {
           )}
 
           {/* Ticket selection */}
+
+          {/* TICKET SELECTION - REAL SEATS */}
           <div className="booking-card ticket-selection-card">
             <div className="booking-section-heading">
               <div className="section-icon">
@@ -424,103 +469,147 @@ export default function TicketBookingPage() {
               </div>
 
               <div>
-                <span className="section-subtitle">CHOOSE YOUR TICKETS</span>
-                <h3>Chọn vé của bạn</h3>
+                <span className="section-subtitle">CHOOSE YOUR SEATS</span>
+                <h3>Chọn chỗ ngồi</h3>
               </div>
             </div>
 
-            {ticketInfoWithDefaults.length > 0 ? (
-              <div className="ticket-table-wrapper">
-                <table className="ticket-table">
-                  <thead>
-                    <tr>
-                      <th>Hạng vé</th>
-                      <th>Giá vé</th>
-                      <th>Khu vực</th>
-                      <th>Chỗ ngồi</th>
-                      <th></th>
-                    </tr>
-                  </thead>
+            {/* Chú thích trạng thái */}
+            <div className="seat-legend">
+              <div>
+                <span className="seat-dot available"></span>
+                Còn trống
+              </div>
 
-                  <tbody>
-                    {ticketInfoWithDefaults.map((ticket, i) => (
-                      <tr key={i}>
-                        <td>
-                          <span className="ticket-type">
-                            {ticket.type}
-                          </span>
-                        </td>
+              <div>
+                <span className="seat-dot selected"></span>
+                Đang chọn
+              </div>
 
-                        <td>
-                          <span className="ticket-price">
-                            {formatPrice(ticket.price)} đ
-                          </span>
-                        </td>
+              <div>
+                <span className="seat-dot reserved"></span>
+                Đang giữ
+              </div>
 
-                        <td>
-                          <select
-                            value={selectedZones[i] || ''}
-                            onChange={(e) =>
-                              setSelectedZones((prev) => ({
-                                ...prev,
-                                [i]: e.target.value,
-                              }))
-                            }
-                          >
-                            <option value="">Chọn khu</option>
+              <div>
+                <span className="seat-dot sold"></span>
+                Đã bán
+              </div>
+            </div>
 
-                            {ticket.zones.map((zone, index) => (
-                              <option key={index} value={zone}>
-                                {zone}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-
-                        <td>
-                          <select
-                            value={selectedSeatNums[i] || ''}
-                            onChange={(e) =>
-                              setSelectedSeatNums((prev) => ({
-                                ...prev,
-                                [i]: e.target.value,
-                              }))
-                            }
-                          >
-                            <option value="">Chọn ghế</option>
-
-                            {ticket.seats.map((seat, index) => (
-                              <option key={index} value={seat}>
-                                {seat}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-
-                        <td>
-                          <button
-                            type="button"
-                            className="add-btn"
-                            onClick={() =>
-                              handleSeatAdd(
-                                ticket.type,
-                                ticket.price,
-                                selectedZones[i],
-                                selectedSeatNums[i]
-                              )
-                            }
-                          >
-                            + Thêm
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            {loadingSeats ? (
+              <div className="ticket-empty">
+                Đang tải sơ đồ ghế...
+              </div>
+            ) : seatError ? (
+              <div className="ticket-empty">
+                {seatError}
+              </div>
+            ) : seatData.length === 0 ? (
+              <div className="ticket-empty">
+                Sự kiện chưa có cấu hình ghế.
               </div>
             ) : (
-              <div className="ticket-empty">
-                Hiện chưa có thông tin loại vé cho sự kiện này.
+              <div className="real-seat-list">
+                {seatData.map((ticket) => (
+                  <div className="real-ticket-type" key={ticket._id}>
+                    <div className="real-ticket-header">
+                      <div>
+                        <h4>{ticket.name}</h4>
+                        <span>
+                          {formatPrice(ticket.price)} đ
+                        </span>
+                      </div>
+                    </div>
+
+                    {(ticket.sections || []).map((section) => {
+                      const availableCount = section.seats.filter(
+                        (seat) => seat.status === 'available'
+                      ).length;
+
+                      const reservedCount = section.seats.filter(
+                        (seat) => seat.status === 'reserved'
+                      ).length;
+
+                      const soldCount = section.seats.filter(
+                        (seat) => seat.status === 'sold'
+                      ).length;
+
+                      return (
+                        <div className="real-section" key={section._id}>
+                          <div className="real-section-header">
+                            <h5>{section.name}</h5>
+
+                            <span>
+                              Còn {availableCount}/{section.seats.length} ghế
+                            </span>
+                          </div>
+
+                          <div className="real-section-stats">
+                            <span>Còn trống: {availableCount}</span>
+                            <span>Đang giữ: {reservedCount}</span>
+                            <span>Đã bán: {soldCount}</span>
+                          </div>
+
+                          {section.isActive ? (
+                            <div className="real-seat-grid">
+                              {section.seats.map((seat) => {
+                                const isSelected = selectedSeats.some(
+                                  (item) => item.seatId === seat._id
+                                );
+
+                                const isAvailable =
+                                  seat.status === 'available' &&
+                                  Boolean(seat._id);
+
+                                const statusClass = isSelected
+                                  ? 'selected'
+                                  : seat.status === 'available'
+                                    ? 'available'
+                                    : seat.status === 'reserved'
+                                      ? 'reserved'
+                                      : seat.status === 'sold'
+                                        ? 'sold'
+                                        : 'missing';
+
+                                return (
+                                  <button
+                                    type="button"
+                                    key={seat._id || seat.seatNumber}
+                                    className={`real-seat ${statusClass}`}
+                                    disabled={!isAvailable}
+                                    title={
+                                      isSelected
+                                        ? 'Bạn đang chọn ghế này'
+                                        : seat.status === 'available'
+                                          ? 'Còn trống'
+                                          : seat.status === 'reserved'
+                                            ? 'Đang được giữ'
+                                            : seat.status === 'sold'
+                                              ? 'Đã bán'
+                                              : 'Chưa đồng bộ ghế'
+                                    }
+                                    onClick={() =>
+                                      isSelected
+                                        ? handleRemoveSeat(seat._id)
+                                        : handleSeatAdd(ticket, section, seat)
+                                    }
+                                  >
+                                    {seat.seatNumber}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <p className="section-disabled">
+                              Khu vực này hiện không mở bán.
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -619,7 +708,7 @@ export default function TicketBookingPage() {
               ) : (
                 <>
                   Tiếp tục thanh toán
-          
+
                 </>
               )}
             </button>

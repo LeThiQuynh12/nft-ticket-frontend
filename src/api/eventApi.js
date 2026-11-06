@@ -1,4 +1,3 @@
-// src/api/eventApi.js
 import axiosClient from './axiosClient';
 
 const eventApi = {
@@ -16,7 +15,12 @@ const eventApi = {
 
   deleteEvent: (id) => axiosClient.delete(`/events/${id}`),
 
-getEventsByCategory: (categorySlug) =>
+  // Lấy trạng thái ghế thật từ collection Seat
+  getEventSeats: (eventId) =>
+    axiosClient.get(`/seats/event/${eventId}`)
+      .then((res) => res.data),
+
+  getEventsByCategory: (categorySlug) =>
     axiosClient
       .get(`/events?category=${categorySlug}`)
       .then((res) => res.data),
